@@ -1,103 +1,207 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Mail, Copy, Share2, Eye, Settings, Palette } from "lucide-react";
+import { MessageModal } from "../components/modals/message-modal";
+import { toast } from "sonner";
+import Link from "next/link";
+
+// Dummy data for demonstration
+const dummyMessages = [
+  {
+    id: "1",
+    content:
+      "Thank you for being such an amazing friend! Your kindness always brightens my day. 🌟",
+    timestamp: "2024-01-15T10:30:00Z",
+    isRead: false,
+  },
+  {
+    id: "2",
+    content:
+      "I really admire your dedication and hard work. You inspire me to be better every day!",
+    timestamp: "2024-01-14T15:45:00Z",
+    isRead: true,
+  },
+  {
+    id: "3",
+    content:
+      "Your presentation yesterday was incredible! The way you explained complex topics was so clear.",
+    timestamp: "2024-01-13T09:20:00Z",
+    isRead: false,
+  },
+  {
+    id: "4",
+    content:
+      "Just wanted to say that your positive energy is contagious. Keep being awesome! ✨",
+    timestamp: "2024-01-12T14:10:00Z",
+    isRead: true,
+  },
+  {
+    id: "5",
+    content:
+      "I love how you always make time to help others. Your generosity doesn't go unnoticed.",
+    timestamp: "2024-01-11T11:55:00Z",
+    isRead: false,
+  },
+];
+
+export default function Dashboard() {
+  const [messages, setMessages] = useState(dummyMessages);
+  const [selectedMessage, setSelectedMessage] = useState<
+    (typeof dummyMessages)[0] | null
+  >(null);
+  const [userLink] = useState("https://anonymous-msg.app/u/john-doe-123");
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(userLink);
+      toast.success("Link copied!");
+    } catch (err) {
+      toast.error("Failed to copy");
+    }
+  };
+
+  const openMessage = (message: (typeof dummyMessages)[0]) => {
+    setSelectedMessage(message);
+    if (!message.isRead) {
+      setMessages((prev) =>
+        prev.map((m) => (m.id === message.id ? { ...m, isRead: true } : m))
+      );
+    }
+  };
+
+  const unreadCount = messages.filter((m) => !m.isRead).length;
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="text-center space-y-2">
+          <h1 className="text-3xl font-bold text-gray-900">
+            Anonymous Messages
+          </h1>
+          <p className="text-gray-600">
+            Share your link and receive anonymous messages from friends
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+
+        {/* Link Sharing Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Share2 className="h-5 w-5" />
+              Your Anonymous Message Link
+            </CardTitle>
+            <CardDescription>
+              Share this link with friends so they can send you anonymous
+              messages
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex gap-2">
+              <Input value={userLink} readOnly className="font-mono text-sm" />
+              <Button onClick={copyLink} variant="outline">
+                <Copy className="h-4 w-4 mr-2" />
+                Copy
+              </Button>
+            </div>
+            <div className="flex gap-2">
+              <Link href="/send/john-doe-123">
+                <Button variant="outline" size="sm">
+                  <Eye className="h-4 w-4 mr-2" />
+                  Preview
+                </Button>
+              </Link>
+              <Link href="/customize">
+                <Button
+                  size="sm"
+                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
+                >
+                  <Palette className="h-4 w-4 mr-2" />
+                  Customize Page
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Messages Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Mail className="h-5 w-5" />
+                Your Messages
+                {unreadCount > 0 && (
+                  <Badge variant="destructive" className="ml-2">
+                    {unreadCount} new
+                  </Badge>
+                )}
+              </div>
+              <span className="text-sm text-gray-500">
+                {messages.length} total
+              </span>
+            </CardTitle>
+            <CardDescription>
+              Click on any message icon to read the anonymous message
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {messages.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <Mail className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>
+                  No messages yet. Share your link to start receiving anonymous
+                  messages!
+                </p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                {messages.map((message) => (
+                  <button
+                    key={message.id}
+                    onClick={() => openMessage(message)}
+                    className="relative p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 group"
+                  >
+                    <Mail
+                      className={`h-8 w-8 mx-auto ${
+                        message.isRead
+                          ? "text-gray-400"
+                          : "text-purple-600 animate-pulse"
+                      }`}
+                    />
+                    {!message.isRead && (
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse" />
+                    )}
+                    <p className="text-xs text-gray-500 mt-2">
+                      {new Date(message.timestamp).toLocaleDateString()}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Message Modal */}
+        {selectedMessage && (
+          <MessageModal
+            message={selectedMessage}
+            isOpen={!!selectedMessage}
+            onClose={() => setSelectedMessage(null)}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        )}
+      </div>
     </div>
   );
 }
