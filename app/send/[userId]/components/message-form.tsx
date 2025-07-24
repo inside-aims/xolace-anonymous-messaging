@@ -58,7 +58,7 @@ export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormPro
       <Button
         type="submit"
         disabled={!isValid || isSubmitting}
-        className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-4 rounded-2xl text-lg shadow-xl transform transition-all hover:scale-105 disabled:hover:scale-100"
+        className="w-full bg-lavender-600 hover:bg-lavender-700 text-white font-semibold py-4 rounded-3xl h-10 text-lg shadow-xl transform transition-all hover:scale-102 disabled:hover:scale-100"
       >
         {isSubmitting ? (
           <>

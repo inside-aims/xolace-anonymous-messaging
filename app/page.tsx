@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Mail, Copy, Share2, Eye, Settings, Palette } from "lucide-react";
-import { MessageModal } from "../components/modals/message-modal";
+import { Mail, Copy, Share2, Eye, UserPen } from "lucide-react";
+import { MessageModal } from "@/components/modals/message-modal";
 import { toast } from "sonner";
 import Link from "next/link";
 
@@ -60,7 +60,7 @@ export default function Dashboard() {
   const [selectedMessage, setSelectedMessage] = useState<
     (typeof dummyMessages)[0] | null
   >(null);
-  const [userLink] = useState("https://anonymous-msg.app/u/john-doe-123");
+  const [userLink] = useState(`${window.location.origin}/send/john-doe-123`);
 
   const copyLink = async () => {
     try {
@@ -83,22 +83,22 @@ export default function Dashboard() {
   const unreadCount = messages.filter((m) => !m.isRead).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-lavender-50 to-ocean-50 p-4">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-gray-900">
-            Anonymous Messages
+        <div className="text-start md:text-center space-y-2">
+          <h1 className="text-2xl md:text-4xl font-bold text-gray-800 drop-shadow-sm">
+            📬 Your Anonymous Messages
           </h1>
-          <p className="text-gray-600">
-            Share your link and receive anonymous messages from friends
+          <p className="text-gray-600 text-lg">
+            Share your link and receive kind, anonymous messages
           </p>
         </div>
 
         {/* Link Sharing Card */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-2xl font-semibold">
               <Share2 className="h-5 w-5" />
               Your Anonymous Message Link
             </CardTitle>
@@ -115,22 +115,36 @@ export default function Dashboard() {
                 Copy
               </Button>
             </div>
-            <div className="flex gap-2">
-              <Link href="/send/john-doe-123">
-                <Button variant="outline" size="sm">
-                  <Eye className="h-4 w-4 mr-2" />
-                  Preview
-                </Button>
-              </Link>
-              <Link href="/customize">
-                <Button
-                  size="sm"
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
-                >
-                  <Palette className="h-4 w-4 mr-2" />
-                  Customize Page
-                </Button>
-              </Link>
+            <div className={"w-full flex items-center justify-between"}>
+              <div className="flex gap-4">
+                <Link href={userLink}>
+                  <Button variant="outline" size="sm" className="h-9">
+                    <Eye className="h-4 w-4 mr-2"/>
+                    Preview
+                  </Button>
+                </Link>
+                <Link href={"/customize"}>
+                  <Button
+                    className="relative inline-flex h-9 overflow-hidden rounded-md focus:outline-none text-lg font-semibold shadow-lg transform transition-all hover:scale-105 ">
+                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]">
+                    </span>
+                    <span className="inline-flex h-full w-full items-center justify-center whitespace-nowrap rounded-md text-lg font-medium text-white backdrop-blur-sm">
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share
+                    </span>
+                  </Button>
+                </Link>
+              </div>
+              <div>
+                <Link href={"/customize"}>
+                  <Button
+                    size="sm"
+                    className=" h-9 w-9 rounded-full border border-neutral-400"
+                  >
+                    <UserPen/>
+                  </Button>
+                </Link>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -140,7 +154,7 @@ export default function Dashboard() {
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Mail className="h-5 w-5" />
+                <Mail className="h-5 w-5"/>
                 Your Messages
                 {unreadCount > 0 && (
                   <Badge variant="destructive" className="ml-2">

@@ -3,7 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Palette } from "lucide-react"
-import type { UserSettings } from "../../../send/[userId]/types"
+import type { UserSettings } from "@/app/send/[userId]/types"
 
 interface AppearanceTabProps {
   settings: UserSettings
@@ -12,7 +12,7 @@ interface AppearanceTabProps {
 
 const backgroundThemes = [
   {
-    id: "from-pink-400 via-purple-500 to-orange-400",
+    id: "from-lavender-400 via-ocean-500 to-orange-400",
     name: "Sunset Vibes",
     preview: "bg-gradient-to-br from-pink-400 via-purple-500 to-orange-400",
   },

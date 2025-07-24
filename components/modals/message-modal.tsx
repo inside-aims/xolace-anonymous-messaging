@@ -122,7 +122,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg border">
+          <div className="bg-gradient-to-r from-lavender-50 to-ocean-50 p-4 rounded-lg border">
             <p className="text-gray-800 leading-relaxed">{message.content}</p>
           </div>
 
@@ -138,7 +138,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
                   onClick={() => setSelectedTemplate(templateNum)}
                   className={`flex-1 p-2 rounded-lg border-2 transition-all ${
                     selectedTemplate === templateNum
-                      ? "border-purple-500 bg-purple-50"
+                      ? "border-lavender-500 bg-lavender-50"
                       : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
@@ -157,7 +157,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
             <Button
               onClick={shareMessage}
               disabled={isSharing}
-              className="flex-1"
+              className="flex-1 bg-lavender-500 hover:bg-lavender-600 h-10 transition-all ease-in-out duration hover:scale-102"
             >
               {isSharing ? (
                 <>
@@ -171,7 +171,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
                 </>
               )}
             </Button>
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onClose} className={"h-10"}>
               <X className="h-4 w-4 mr-2" />
               Close
             </Button>

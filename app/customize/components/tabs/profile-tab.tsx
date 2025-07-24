@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { User, Upload } from "lucide-react"
-import type { UserSettings } from "../../../send/[userId]/types"
+import type { UserSettings } from "@/app/send/[userId]/types"
 import * as LucideIcons from "lucide-react"
 
 interface ProfileTabProps {
@@ -55,9 +55,9 @@ export function ProfileTab({ settings, onUpdate }: ProfileTabProps) {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="flex items-center gap-6">
-          <Avatar className="w-20 h-20 ring-4 ring-purple-200">
+          <Avatar className="w-20 h-20 ring-4 ring-lavender-200">
             <AvatarImage src={settings.avatarUrl || "/placeholder.svg"} alt={settings.username} />
-            <AvatarFallback className="bg-gradient-to-br from-purple-400 to-pink-400 text-white text-2xl font-bold">
+            <AvatarFallback className="bg-gradient-to-br from-lavender-400 to-ocean-400 text-white text-2xl font-bold">
               {settings.username.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
