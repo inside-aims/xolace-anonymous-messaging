@@ -38,7 +38,7 @@ export function LivePreview({ settings }: LivePreviewProps) {
               <div className="flex items-center gap-3 mb-4">
                 <Avatar className="w-12 h-12 ring-2 ring-white/50">
                   <AvatarImage src={settings.avatarUrl || "/placeholder.svg"} alt={settings.username} />
-                  <AvatarFallback className="bg-gradient-to-br from-purple-400 to-pink-400 text-white text-sm font-bold">
+                  <AvatarFallback className="bg-gradient-to-br from-lavender-400 to-ocean-400 text-white text-sm font-bold">
                     {settings.username.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
@@ -58,7 +58,7 @@ export function LivePreview({ settings }: LivePreviewProps) {
               </div>
 
               {/* Prompt */}
-              <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-3 mb-3">
+              <div className="bg-gradient-to-r from-pink-50 to-pupple-50 rounded-xl p-3 mb-3">
                 <p className="text-gray-800 text-sm font-medium">{settings.customPrompt}</p>
               </div>
 
@@ -77,7 +77,7 @@ export function LivePreview({ settings }: LivePreviewProps) {
                 <div className="text-xs text-gray-400 text-right mb-2">0/500 characters</div>
               )}
 
-              <div className="bg-black text-white rounded-xl p-2 text-center">
+              <div className="bg-lavender-500 text-white rounded-xl p-2 text-center">
                 <div className="text-xs font-medium">Send Anonymous Message</div>
               </div>
             </div>

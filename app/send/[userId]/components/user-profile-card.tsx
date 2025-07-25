@@ -26,7 +26,7 @@ export function UserProfileCard({ settings, userId }: UserProfileCardProps) {
       <div className="flex items-center gap-4 mb-6">
         <Avatar className="w-16 h-16 ring-4 ring-white/50">
           <AvatarImage src={settings.avatarUrl || "/placeholder.svg"} alt={settings.username} />
-          <AvatarFallback className="bg-gradient-to-br from-purple-400 to-pink-400 text-white text-xl font-bold">
+          <AvatarFallback className="bg-gradient-to-br from-lavender-400 to-ocean-400 text-white text-xl font-bold">
             {settings.username.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
