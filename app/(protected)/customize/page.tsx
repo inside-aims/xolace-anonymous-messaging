@@ -2,7 +2,6 @@
 import { CustomizationHeader } from "./components/customization-header"
 import { CustomizationTabs } from "./components/customization-tabs"
 import { LivePreview } from "./components/live-preview"
-import { useCustomizationSettings } from "./hooks/use-customization-settings"
 import { useMessageSettings, useUpdateMessageSettings } from "@/hooks/useAnonymousMessages"
 import { useEffect, useState } from "react"
 import { useUserState } from "@/lib/store/user"
