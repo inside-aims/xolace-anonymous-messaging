@@ -10,7 +10,7 @@ import type { UserSettings } from "../types"
 
 interface MessageFormProps {
   settings: UserSettings
-  onSubmit: (message: string) => Promise<void>
+  onSubmit: (message: string) => void
   isSubmitting: boolean
 }
 

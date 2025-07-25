@@ -3,17 +3,17 @@
 import { UserProfileCard } from "./user-profile-card"
 import { MessageForm } from "./message-form"
 import { BottomSection } from "./bottom-section"
-import type { UserSettings } from "../types"
+import type { Settings } from "@/types/global"
+import { backgroundThemes } from "@/app/(protected)/customize/components/tabs/appearance-tab"
 
 interface MessageSendingContainerProps {
-  settings: UserSettings
-  userId: string
-  onSubmit: (message: string) => Promise<void>
+  settings: Settings
+  onSubmit: (messageText: string) => void
   isSubmitting: boolean
 }
 
-export function MessageSendingContainer({ settings, userId, onSubmit, isSubmitting }: MessageSendingContainerProps) {
-  const backgroundClass = `bg-gradient-to-br ${settings.backgroundGradient}`
+export function MessageSendingContainer({ settings, onSubmit, isSubmitting }: MessageSendingContainerProps) {
+  const backgroundClass = `bg-gradient-to-br ${backgroundThemes.find(theme => theme.id === settings?.background_theme)?.preview}`
 
   return (
     <div className={`min-h-screen ${backgroundClass} relative overflow-hidden`}>
@@ -27,7 +27,7 @@ export function MessageSendingContainer({ settings, userId, onSubmit, isSubmitti
       <div className="relative z-10 flex flex-col min-h-screen">
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-8">
           <div className="w-full max-w-md space-y-8">
-            <UserProfileCard settings={settings} userId={userId} />
+            <UserProfileCard settings={settings} />
             <MessageForm settings={settings} onSubmit={onSubmit} isSubmitting={isSubmitting} />
           </div>
         </div>
