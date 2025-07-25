@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
         has: [
           {
             type: 'host',
-            value: 'messages.xolace.app',
+            value: 'messaging.xolace.app',
           },
         ],
         destination: MAIN_DOMAIN,
