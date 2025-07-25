@@ -54,9 +54,9 @@ export function AdvancedTab({ settings, onUpdate }: AdvancedTabProps) {
             </p>
           </div>
           <Switch
-            checked={settings.min_length}
+            checked={settings.has_min_length}
             onCheckedChange={(checked) =>
-              onUpdate({ min_length: checked })
+              onUpdate({ has_min_length: checked })
             }
           />
         </div>

@@ -199,6 +199,7 @@ export type Database = {
           background_theme: string
           created_at: string
           custom_prompt: string
+          has_min_length: boolean
           min_length: number
           page_title: string
           selected_icon: string
@@ -214,6 +215,7 @@ export type Database = {
           background_theme?: string
           created_at?: string
           custom_prompt?: string
+          has_min_length?: boolean
           min_length?: number
           page_title?: string
           selected_icon?: string
@@ -229,6 +231,7 @@ export type Database = {
           background_theme?: string
           created_at?: string
           custom_prompt?: string
+          has_min_length?: boolean
           min_length?: number
           page_title?: string
           selected_icon?: string
@@ -1466,6 +1469,7 @@ export type Database = {
           background_theme: string
           created_at: string
           custom_prompt: string
+          has_min_length: boolean
           min_length: number
           page_title: string
           selected_icon: string
