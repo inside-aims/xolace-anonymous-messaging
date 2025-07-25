@@ -58,7 +58,7 @@ export function useMarkMessageAsRead(userId?: string) {
     });
 }
 
-export function useUpdateMessageSettings(userId: string) {
+export function useUpdateMessageSettings(userId?: string) {
     const queryClient = useQueryClient();
     const supabase = getSupabaseBrowserClient();
 

@@ -6,10 +6,10 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Send } from "lucide-react"
-import type { UserSettings } from "../types"
+import type { Settings } from "@/types/global"
 
 interface MessageFormProps {
-  settings: UserSettings
+  settings: Settings
   onSubmit: (message: string) => void
   isSubmitting: boolean
 }
@@ -22,7 +22,7 @@ export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormPro
     await onSubmit(message)
   }
 
-  const isValid = message.trim() && (!settings.requireMinLength || message.length >= settings.minLength)
+  const isValid = message.trim() && (!settings.min_length || message.length >= settings.min_length)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -34,7 +34,7 @@ export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormPro
           className="min-h-[120px] resize-none border-2 border-white/20 bg-white/90 backdrop-blur-sm rounded-2xl text-gray-800 placeholder:text-gray-500 focus:border-white/40 focus:ring-0 text-lg p-4"
           maxLength={500}
         />
-        {settings.showCharacterCount && (
+        {settings.show_character_count && (
           <div className="absolute bottom-3 right-3 text-xs text-gray-400 bg-white/80 px-2 py-1 rounded-full">
             {message.length}/500
           </div>
@@ -46,11 +46,11 @@ export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormPro
           <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
           <span>Anonymous & Secure</span>
         </div>
-        {settings.requireMinLength && (
+        {settings.min_length && (
           <span
-            className={`text-white/80 ${message.length >= settings.minLength ? "text-green-300" : "text-orange-300"}`}
+            className={`text-white/80 ${message.length >= settings.min_length ? "text-green-300" : "text-orange-300"}`}
           >
-            Min: {settings.minLength} chars
+            Min: {settings.min_length} chars
           </span>
         )}
       </div>

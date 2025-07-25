@@ -48,6 +48,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
 
         console.log(canvas)
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         canvas.toBlob(async (blob: any) => {
           if (blob) {
             const file = new File([blob], "anonymous-message.png", {

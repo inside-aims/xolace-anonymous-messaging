@@ -48,7 +48,7 @@ export const CardTemplate2 = ({ message, date, templateId }: CardTemplateProps) 
     {/* Main content */}
     <div className="bg-white rounded-2xl p-6 shadow-xl max-w-[320px] w-full z-10">
       <div className="text-4xl mb-4">✨</div>
-      <p className="text-gray-800 text-lg leading-relaxed mb-4 font-medium">"{message}"</p>
+      <p className="text-gray-800 text-lg leading-relaxed mb-4 font-medium">&quot;{message}&quot;</p>
       <div className="border-t border-gray-200 pt-4">
         <p className="text-gray-600 text-sm mb-2">{date}</p>
         <p className="text-blue-600 text-xs font-bold tracking-wide">ANONYMOUS KINDNESS</p>

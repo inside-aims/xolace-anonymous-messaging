@@ -195,9 +195,11 @@ export type Database = {
       }
       anonymous_messaging_settings: {
         Row: {
+          avatar_url: string | null
           background_theme: string
           created_at: string
           custom_prompt: string
+          has_min_length: boolean
           min_length: number
           page_title: string
           selected_icon: string
@@ -205,12 +207,15 @@ export type Database = {
           show_character_count: boolean
           updated_at: string | null
           user_id: string
+          username: string
           welcome_message: string | null
         }
         Insert: {
+          avatar_url?: string | null
           background_theme?: string
           created_at?: string
           custom_prompt?: string
+          has_min_length?: boolean
           min_length?: number
           page_title?: string
           selected_icon?: string
@@ -218,12 +223,15 @@ export type Database = {
           show_character_count?: boolean
           updated_at?: string | null
           user_id: string
+          username?: string
           welcome_message?: string | null
         }
         Update: {
+          avatar_url?: string | null
           background_theme?: string
           created_at?: string
           custom_prompt?: string
+          has_min_length?: boolean
           min_length?: number
           page_title?: string
           selected_icon?: string
@@ -231,6 +239,7 @@ export type Database = {
           show_character_count?: boolean
           updated_at?: string | null
           user_id?: string
+          username?: string
           welcome_message?: string | null
         }
         Relationships: [
@@ -1456,9 +1465,11 @@ export type Database = {
       get_or_create_message_settings: {
         Args: Record<PropertyKey, never>
         Returns: {
+          avatar_url: string | null
           background_theme: string
           created_at: string
           custom_prompt: string
+          has_min_length: boolean
           min_length: number
           page_title: string
           selected_icon: string
@@ -1466,6 +1477,7 @@ export type Database = {
           show_character_count: boolean
           updated_at: string | null
           user_id: string
+          username: string
           welcome_message: string | null
         }[]
       }

@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { User, Upload } from "lucide-react";
+import { User } from "lucide-react";
 import type { Settings } from "@/types/global";
 import * as LucideIcons from "lucide-react";
 

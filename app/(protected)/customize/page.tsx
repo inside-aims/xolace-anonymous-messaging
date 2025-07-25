@@ -2,7 +2,6 @@
 import { CustomizationHeader } from "./components/customization-header"
 import { CustomizationTabs } from "./components/customization-tabs"
 import { LivePreview } from "./components/live-preview"
-import { useCustomizationSettings } from "./hooks/use-customization-settings"
 import { useMessageSettings, useUpdateMessageSettings } from "@/hooks/useAnonymousMessages"
 import { useEffect, useState } from "react"
 import { useUserState } from "@/lib/store/user"
@@ -30,7 +29,8 @@ export default function CustomizePage() {
   const handleUpdate = (updates: Partial<Settings>) => {
     // All edits update the local draft state immediately for a responsive feel
     if (draftSettings) {
-      setDraftSettings((prev: Settings) => ({ ...prev, ...updates }));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setDraftSettings((prev: any) => ({ ...prev, ...updates }));
     }
   };
 

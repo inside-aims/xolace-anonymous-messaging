@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Mail, Copy, Share2, Eye, UserPen } from "lucide-react";
 import { MessageModal } from "@/components/modals/message-modal";
 import Link from "next/link";
@@ -45,6 +44,7 @@ const DashboardClient = () =>{
       try {
         await navigator.clipboard.writeText(userLink);
         toast.success("Link copied!");
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (err) {
         toast.error("Failed to copy");
       }
