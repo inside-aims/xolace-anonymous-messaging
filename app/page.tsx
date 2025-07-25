@@ -65,7 +65,9 @@ export default function Dashboard() {
   const copyLink = async () => {
     try {
       await navigator.clipboard.writeText(userLink);
-      toast.success("Link copied!");
+      toast.success("Link copied!", {
+        description: "Link has been successfully copied to clipboard."
+      });
     } catch (err) {
       toast.error("Failed to copy");
     }
@@ -189,7 +191,7 @@ export default function Dashboard() {
                       className={`h-8 w-8 mx-auto ${
                         message.isRead
                           ? "text-gray-400"
-                          : "text-purple-600 animate-pulse"
+                          : "text-lavender-500 animate-pulse"
                       }`}
                     />
                     {!message.isRead && (
