@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import type { UserSettings } from "../../../(open)/send/[userId]/types";
+import type { UserSettings } from "../../../(open)/[userId]/types";
 
 const defaultSettings: UserSettings = {
   username: "johndoe",
   pageTitle: "ask me anything, anonymously",
   customPrompt: "What's something you've always wanted to tell me?",
   avatarUrl: "/placeholder.svg?height=64&width=64",
-  backgroundGradient: "from-pink-400 via-purple-500 to-orange-400",
+  backgroundGradient: "sunset-vibes",
   showCharacterCount: true,
   requireMinLength: false,
   minLength: 10,

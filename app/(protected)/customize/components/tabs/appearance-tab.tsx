@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Palette } from "lucide-react";
-import type { UserSettings } from "@/app/(open)/send/[userId]/types";
+import type { UserSettings } from "@/app/(open)/[userId]/types";
 
 interface AppearanceTabProps {
   settings: UserSettings;
@@ -18,32 +18,32 @@ interface AppearanceTabProps {
 
 const backgroundThemes = [
   {
-    id: "from-lavender-400 via-ocean-500 to-orange-400",
+    id: "sunset-vibes",
     name: "Sunset Vibes",
     preview: "bg-gradient-to-br from-pink-400 via-purple-500 to-orange-400",
   },
   {
-    id: "from-blue-400 via-teal-400 to-green-400",
+    id: "ocean-breeze",
     name: "Ocean Breeze",
     preview: "bg-gradient-to-br from-blue-400 via-teal-400 to-green-400",
   },
   {
-    id: "from-purple-400 via-pink-400 to-red-400",
+    id: "purple-dreams",
     name: "Purple Dreams",
     preview: "bg-gradient-to-br from-purple-400 via-pink-400 to-red-400",
   },
   {
-    id: "from-green-400 via-blue-500 to-purple-600",
+    id: "forest-mist",
     name: "Forest Mist",
     preview: "bg-gradient-to-br from-green-400 via-blue-500 to-purple-600",
   },
   {
-    id: "from-orange-400 via-pink-500 to-purple-600",
+    id: "cosmic-fire",
     name: "Cosmic Fire",
     preview: "bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600",
   },
   {
-    id: "from-gray-900 via-purple-900 to-violet-600",
+    id: "dark-mode",
     name: "Dark Mode",
     preview: "bg-gradient-to-br from-gray-900 via-purple-900 to-violet-600",
   },

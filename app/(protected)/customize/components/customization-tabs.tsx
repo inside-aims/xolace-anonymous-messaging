@@ -5,7 +5,7 @@ import { ProfileTab } from "./tabs/profile-tab";
 import { ContentTab } from "./tabs/content-tab";
 import { AppearanceTab } from "./tabs/appearance-tab";
 import { AdvancedTab } from "./tabs/advanced-tab";
-import type { UserSettings } from "../../../(open)/send/[userId]/types";
+import type { UserSettings } from "../../../(open)/[userId]/types";
 
 interface CustomizationTabsProps {
   settings: UserSettings;

@@ -73,6 +73,14 @@
   --color-honey-900: #785b0f;
   --color-honey-950: #453303;
 
+  /* Messaging brand colors */
+
+  --color-dark-1: #000000;
+
+  --color-template1-from: #A78BFA; /*purple-400*/
+  --color-template1-via: #F472B6; /*pink-400*/
+  --color-template1-to: #EF4444; /*red-400*/
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -181,6 +189,9 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@utility card-template-1-gradient {
+  background-image: linear-gradient(to right bottom, rgb(167, 139, 250) 0%, rgb(244, 114, 182) 50%, rgb(239, 68, 68) 100%);
+}
 @layer base {
   * {
     @apply border-border outline-ring/50;

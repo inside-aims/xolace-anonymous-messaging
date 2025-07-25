@@ -16,13 +16,7 @@ import {
   CardTemplate2,
   CardTemplate3,
 } from "../cards/card-templates";
-
-interface Message {
-  id: string;
-  content: string;
-  timestamp: string;
-  isRead: boolean;
-}
+import { Message } from "@/types/global";
 
 interface MessageModalProps {
   message: Message;
@@ -39,7 +33,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
 
     try {
       // Dynamically import html2canvas
-      const html2canvas = (await import("html2canvas")).default;
+      const html2canvas = (await import("html2canvas-pro")).default;
       const templateId = `shareCardTemplate${selectedTemplate}`;
       const shareCardTemplate = document.getElementById(templateId);
 
@@ -52,6 +46,8 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           useCORS: true,
         });
 
+        console.log(canvas)
+
         canvas.toBlob(async (blob: any) => {
           if (blob) {
             const file = new File([blob], "anonymous-message.png", {
@@ -61,6 +57,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
             // Try native sharing first
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
               try {
+                console.log("Sharing...")
                 await navigator.share({
                   title: "Anonymous Message",
                   text: "Check out this beautiful message I received! 💜",
@@ -68,11 +65,13 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
                 });
                 toast.success("Shared successfully!");
               } catch (shareError) {
+                console.log("Sharing error:", shareError)
                 // User cancelled sharing, fallback to download
                 downloadImage(blob);
               }
             } else {
               // Fallback to download
+              console.log("Fallback to download")
               downloadImage(blob);
             }
           }
@@ -116,7 +115,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
           <DialogTitle className="flex items-center justify-between">
             Anonymous Message
             <Badge variant="secondary" className="text-xs">
-              {formatDate(message.timestamp)}
+              {formatDate(message.created_at)}
             </Badge>
           </DialogTitle>
         </DialogHeader>
@@ -186,17 +185,17 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
       <div className="fixed -top-full -left-full pointer-events-none">
         <CardTemplate1
           message={message.content}
-          date={formatDate(message.timestamp)}
+          date={formatDate(message.created_at)}
           templateId="shareCardTemplate1"
         />
         <CardTemplate2
           message={message.content}
-          date={formatDate(message.timestamp)}
+          date={formatDate(message.created_at)}
           templateId="shareCardTemplate2"
         />
         <CardTemplate3
           message={message.content}
-          date={formatDate(message.timestamp)}
+          date={formatDate(message.created_at)}
           templateId="shareCardTemplate3"
         />
       </div>

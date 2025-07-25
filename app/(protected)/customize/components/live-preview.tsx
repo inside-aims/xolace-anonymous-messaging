@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Lock } from "lucide-react";
-import type { UserSettings } from "../../../(open)/send/[userId]/types";
+import type { UserSettings } from "../../../(open)/[userId]/types";
 import dynamic from "next/dynamic";
 import * as LucideIcons from "lucide-react";
 

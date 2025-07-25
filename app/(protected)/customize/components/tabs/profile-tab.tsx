@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { User, Upload } from "lucide-react";
-import type { UserSettings } from "@/app/(open)/send/[userId]/types";
+import type { UserSettings } from "@/app/(open)/[userId]/types";
 import * as LucideIcons from "lucide-react";
 
 interface ProfileTabProps {
