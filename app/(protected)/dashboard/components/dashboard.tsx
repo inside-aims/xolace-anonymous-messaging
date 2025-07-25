@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Mail, Copy, Share2, Eye, UserPen } from "lucide-react";
 import { MessageModal } from "@/components/modals/message-modal";
 import Link from "next/link";
@@ -18,14 +19,15 @@ import { toast } from "sonner";
 import { useUserState } from '@/lib/store/user';
 import { useAnonymousMessages, useMessageSettings, useMarkMessageAsRead } from '@/hooks/useAnonymousMessages';
 import { Message } from '@/types/global';
+import DashboardSkeletonLoader  from '@/components/loaders/dashboard-loader';
+import { MessagesSkeleton } from '@/components/loaders/message-skeleton';
 
 const DashboardClient = () =>{
     const { user } = useUserState();
 
-
      // 1. Fetch live data using our custom hooks
-     const { data: settings, isLoading: isLoadingSettings, isFetching: isFetchingSettings } = useMessageSettings(user?.id);
-     const { data: messages, isLoading: isLoadingMessages, isFetching: isFetchingMessages, isError: isErrorMessages } = useAnonymousMessages(user?.id);
+     const { data: settings, isPending: isLoadingSettings } = useMessageSettings(user?.id);
+     const { data: messages, isPending: isLoadingMessages, isFetching: isFetchingMessages, isError: isErrorMessages } = useAnonymousMessages(user?.id);
      const { mutate: markAsRead } = useMarkMessageAsRead(user?.id);
  
      const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
@@ -48,24 +50,26 @@ const DashboardClient = () =>{
       }
     };
   
-
     const openMessage = (message: Message) => {
         setSelectedMessage(message);
         if (!message.is_read) {
           markAsRead(message.id);
         }
-      };
+    };
   
-      const unreadCount = useMemo(() => {
+    const unreadCount = useMemo(() => {
         return messages?.filter((m) => !m.is_read).length ?? 0;
     }, [messages]);
 
-    if (isLoadingSettings || isFetchingSettings) {
-        return <div className="text-center p-8">Loading your dashboard...</div>;
+    // Loading state for settings
+    if (isLoadingSettings) {
+        return (
+            <DashboardSkeletonLoader/>
+        );
     }
 
     if (isErrorMessages) {
-        console.log("Error loading messages")
+        toast.error("Error loading messages")
     }
 
   return (
@@ -145,9 +149,18 @@ const DashboardClient = () =>{
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {(isFetchingMessages || isLoadingMessages )&& !messages ? "Loading messages..." : ""}
-            {isErrorMessages && <div className="text-center py-8 text-rose-500">Error loading messages</div>}
-            {messages?.length === 0 ? (
+            {/* Show skeleton loader while loading messages */}
+            {(isFetchingMessages || isLoadingMessages) && !messages && (
+                <MessagesSkeleton />
+            )}
+            
+            {/* Show error state */}
+            {isErrorMessages && (
+                <div className="text-center py-8 text-rose-500">Error loading messages</div>
+            )}
+            
+            {/* Show empty state */}
+            {messages?.length === 0 && !isLoadingMessages && !isFetchingMessages && (
               <div className="text-center py-8 text-gray-500">
                 <Mail className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>
@@ -155,9 +168,12 @@ const DashboardClient = () =>{
                   messages!
                 </p>
               </div>
-            ) : (
+            )}
+            
+            {/* Show messages */}
+            {messages && messages.length > 0 && (
               <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-                {messages && messages.map((message) => (
+                {messages.map((message) => (
                   <button
                     key={message.id}
                     onClick={() => openMessage(message)}
