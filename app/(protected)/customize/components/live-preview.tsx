@@ -86,7 +86,7 @@ export function LivePreview({ settings }: LivePreviewProps) {
                 <div className="text-xs text-gray-500">Message area...</div>
               </div>
 
-              {settings.showCharacterCount && (
+              {settings.show_character_count && (
                 <div className="text-xs text-gray-400 text-right mb-2">
                   0/500 characters
                 </div>

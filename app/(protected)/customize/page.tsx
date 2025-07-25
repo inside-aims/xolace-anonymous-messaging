@@ -29,7 +29,8 @@ export default function CustomizePage() {
   const handleUpdate = (updates: Partial<Settings>) => {
     // All edits update the local draft state immediately for a responsive feel
     if (draftSettings) {
-      setDraftSettings((prev: Settings) => ({ ...prev, ...updates }));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setDraftSettings((prev: any) => ({ ...prev, ...updates }));
     }
   };
 
