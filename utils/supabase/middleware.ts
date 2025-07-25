@@ -47,6 +47,8 @@ export const updateSession = async (request: NextRequest) => {
     const { data } = await supabase.auth.getClaims();
     const user = data?.claims;
 
+    console.log("middleware data ", data)
+
     // List of protected routes
     const protectedRoutes = [
       '/dashboard',
@@ -62,7 +64,7 @@ export const updateSession = async (request: NextRequest) => {
     if (isProtectedRoute && !user) {
       // add a nexturl search params of the protected route so we can redirect when we sign in
       // Construct the sign-in URL for the main app
-    const signInUrl = new URL('/signin', process.env.NEXT_PUBLIC_APP_URL!);
+    const signInUrl = new URL('/sign-in', process.env.NEXT_PUBLIC_APP_URL!);
     
     // Add a 'nexturl' param to redirect back to the protected page after login
     signInUrl.searchParams.set('nexturl', request.url);
