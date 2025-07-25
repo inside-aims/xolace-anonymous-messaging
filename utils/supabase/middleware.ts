@@ -44,10 +44,11 @@ export const updateSession = async (request: NextRequest) => {
 
     // IMPORTANT: If you remove getClaims() and you use server-side rendering
     // with the Supabase client, your users may be randomly logged out.
-    const { data } = await supabase.auth.getClaims();
+    const { data, error } = await supabase.auth.getClaims();
     const user = data?.claims;
 
     console.log("middleware data ", data)
+    console.log("middleware error ", error)
 
     // List of protected routes
     const protectedRoutes = [
