@@ -11,11 +11,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { MessageSquare } from "lucide-react";
-import type { UserSettings } from "../../../../(open)/[userId]/types";
+import type { Settings } from "@/types/global";
 
 interface ContentTabProps {
-  settings: UserSettings;
-  onUpdate: (updates: Partial<UserSettings>) => void;
+  settings: Settings;
+  onUpdate: (updates: Partial<Settings>) => void;
 }
 
 const promptTemplates = [
@@ -44,8 +44,8 @@ export function ContentTab({ settings, onUpdate }: ContentTabProps) {
           <Label htmlFor="customPrompt">Custom Prompt</Label>
           <Textarea
             id="customPrompt"
-            value={settings.customPrompt}
-            onChange={(e) => onUpdate({ customPrompt: e.target.value })}
+            value={settings.custom_prompt}
+            onChange={(e) => onUpdate({ custom_prompt: e.target.value })}
             placeholder="What would you like people to write about?"
             className="min-h-[100px] rounded-xl border-2"
           />
@@ -62,7 +62,7 @@ export function ContentTab({ settings, onUpdate }: ContentTabProps) {
                 key={index}
                 variant="outline"
                 size="sm"
-                onClick={() => onUpdate({ customPrompt: template })}
+                onClick={() => onUpdate({ custom_prompt: template })}
                 className="text-left justify-start h-auto p-3 rounded-xl text-sm"
               >
                 {template}
@@ -71,16 +71,16 @@ export function ContentTab({ settings, onUpdate }: ContentTabProps) {
           </div>
         </div>
 
-        <div className="space-y-2">
+        {/* <div className="space-y-2">
           <Label htmlFor="welcomeMessage">Welcome Message</Label>
           <Textarea
             id="welcomeMessage"
-            value={settings.welcomeMessage}
-            onChange={(e) => onUpdate({ welcomeMessage: e.target.value })}
+            value={settings.welcome_message}
+            onChange={(e) => onUpdate({ welcome_message: e.target.value })}
             placeholder="A welcoming message for your visitors"
             className="min-h-[80px] rounded-xl border-2"
           />
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );

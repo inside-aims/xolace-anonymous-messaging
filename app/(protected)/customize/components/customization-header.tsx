@@ -6,9 +6,10 @@ import Link from "next/link"
 
 interface CustomizationHeaderProps {
   onSave: () => void
+  isSaving: boolean
 }
 
-export function CustomizationHeader({ onSave }: CustomizationHeaderProps) {
+export function CustomizationHeader({ onSave, isSaving }: CustomizationHeaderProps) {
   return (
     <div className="w-full flex flex-col items-start items-center justify-between gap-4">
       <Link href="/">
@@ -32,6 +33,7 @@ export function CustomizationHeader({ onSave }: CustomizationHeaderProps) {
           <Button
             onClick={onSave}
             className="bg-gradient-to-r from-lavender-500 to-ocean-500 hover:from-lavender-600 hover:to-ocean-600 rounded-lg transition-transform ease-in-out duration-150 hover:scale-102"
+            disabled={isSaving}
           >
             <Save className="h-4 w-4 mr-2"/>
             Save Changes

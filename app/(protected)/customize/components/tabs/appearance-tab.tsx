@@ -9,14 +9,14 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Palette } from "lucide-react";
-import type { UserSettings } from "@/app/(open)/[userId]/types";
+import type { Settings } from "@/types/global";
 
 interface AppearanceTabProps {
-  settings: UserSettings;
-  onUpdate: (updates: Partial<UserSettings>) => void;
+  settings: Settings;
+  onUpdate: (updates: Partial<Settings>) => void;
 }
 
-const backgroundThemes = [
+export const backgroundThemes = [
   {
     id: "sunset-vibes",
     name: "Sunset Vibes",
@@ -69,9 +69,9 @@ export function AppearanceTab({ settings, onUpdate }: AppearanceTabProps) {
               {backgroundThemes.map((theme) => (
                 <button
                   key={theme.id}
-                  onClick={() => onUpdate({ backgroundGradient: theme.id })}
+                  onClick={() => onUpdate({ background_theme: theme.id })}
                   className={`relative p-4 rounded-xl border-2 transition-all ${
-                    settings.backgroundGradient === theme.id
+                    settings.background_theme === theme.id
                       ? "border-purple-500 ring-2 ring-purple-200"
                       : "border-gray-200 hover:border-gray-300"
                   }`}
@@ -82,7 +82,7 @@ export function AppearanceTab({ settings, onUpdate }: AppearanceTabProps) {
                   <p className="text-sm font-medium text-center">
                     {theme.name}
                   </p>
-                  {settings.backgroundGradient === theme.id && (
+                  {settings.background_theme === theme.id && (
                     <div className="absolute -top-2 -right-2">
                       <Badge className="bg-purple-500 text-white">
                         Selected

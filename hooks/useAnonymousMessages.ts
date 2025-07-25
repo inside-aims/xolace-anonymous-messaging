@@ -2,7 +2,8 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getSupabaseBrowserClient } from '@/utils/supabase/client';
-import type { Message } from '@/types/global'; // Assuming you have this type
+import type { Message, Settings } from '@/types/global';
+import { toast } from 'sonner';
 
 // Hook to get user-specific settings (share link, etc.)
 export function useMessageSettings(userId?: string) {
@@ -53,6 +54,39 @@ export function useMarkMessageAsRead(userId?: string) {
         onSuccess: () => {
             // Invalidate the queries to refetch the message list and update the UI
             queryClient.invalidateQueries({ queryKey: ['anonymous-messages', userId] });
+        }
+    });
+}
+
+export function useUpdateMessageSettings() {
+    const queryClient = useQueryClient();
+    const supabase = getSupabaseBrowserClient();
+
+    return useMutation({
+        mutationFn: async (updatedSettings: Partial<Settings>) => {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) throw new Error("User not authenticated.");
+
+            // Remove user_id from the update payload as it cannot be changed.
+            const { user_id, ...settingsToUpdate } = updatedSettings;
+
+            const { data, error } = await supabase
+                .from('anonymous_messaging_settings')
+                .update({ ...settingsToUpdate, updated_at: new Date().toISOString() })
+                .eq('user_id', user.id)
+                .select()
+                .single();
+            
+            if (error) throw new Error(error.message);
+            return data;
+        },
+        onSuccess: (data) => {
+            // Invalidate the query to ensure the cache is fresh for the next visit.
+            queryClient.invalidateQueries({ queryKey: ['message-settings', data.user_id] });
+            toast.success("Your settings have been saved!");
+        },
+        onError: (error) => {
+            toast.error("Failed to save settings", { description: error.message });
         }
     });
 }

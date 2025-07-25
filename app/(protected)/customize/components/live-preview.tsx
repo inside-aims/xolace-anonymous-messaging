@@ -4,21 +4,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Lock } from "lucide-react";
-import type { UserSettings } from "../../../(open)/[userId]/types";
+import type { Settings } from "@/types/global";
 import dynamic from "next/dynamic";
 import * as LucideIcons from "lucide-react";
+import { backgroundThemes } from "./tabs/appearance-tab";
+import { ComponentType } from "react";
 
 interface LivePreviewProps {
-  settings: UserSettings;
+  settings: Settings;
 }
 
 export function LivePreview({ settings }: LivePreviewProps) {
-  const IconComponent = settings.selectedIcon
+  const IconComponent: ComponentType<{ className?: string }> | null = settings.selected_icon
     ? dynamic(
         () =>
-          Promise.resolve(
-            LucideIcons[settings.selectedIcon as keyof typeof LucideIcons]
-          ),
+          import("lucide-react").then((mod) => {
+            const IconComp = mod[settings.selected_icon as keyof typeof mod];
+            // Type guard to ensure we have a valid React component
+            if (typeof IconComp === 'function') {
+              return { default: IconComp as ComponentType<{ className?: string }> };
+            }
+            // Fallback to a default icon if the selected icon doesn't exist
+            return { default: mod.HelpCircle as ComponentType<{ className?: string }> };
+          }),
         {
           ssr: false,
           loading: () => <div className="w-4 h-4" />,
@@ -37,14 +45,18 @@ export function LivePreview({ settings }: LivePreviewProps) {
       <CardContent>
         <div className="border rounded-2xl overflow-hidden">
           <div
-            className={`bg-gradient-to-br ${settings.backgroundGradient} p-6 min-h-[400px] flex flex-col justify-center`}
+            className={`bg-gradient-to-br ${
+              backgroundThemes.find(
+                (theme) => theme.id === settings.background_theme
+              )?.preview
+            } p-6 min-h-[400px] flex flex-col justify-center`}
           >
             <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
               {/* Profile section */}
               <div className="flex items-center gap-3 mb-4">
                 <Avatar className="w-12 h-12 ring-2 ring-white/50">
                   <AvatarImage
-                    src={settings.avatarUrl || "/placeholder.svg"}
+                    src={settings.avatar_url || "/placeholder.svg"}
                     alt={settings.username}
                   />
                   <AvatarFallback className="bg-gradient-to-br from-lavender-400 to-ocean-400 text-white text-sm font-bold">
@@ -60,11 +72,11 @@ export function LivePreview({ settings }: LivePreviewProps) {
                       <IconComponent className="w-4 h-4 text-purple-600" />
                     )}
                   </div>
-                  <p className="text-gray-600 text-xs">{settings.pageTitle}</p>
+                  <p className="text-gray-600 text-xs">{settings.page_title}</p>
                 </div>
                 <Avatar className="w-6 h-6 opacity-60">
                   <AvatarImage
-                    src={settings.avatarUrl || "/placeholder.svg"}
+                    src={settings.avatar_url || "/placeholder.svg"}
                     alt={settings.username}
                   />
                   <AvatarFallback className="bg-gray-200 text-gray-600 text-xs">
@@ -74,9 +86,9 @@ export function LivePreview({ settings }: LivePreviewProps) {
               </div>
 
               {/* Prompt */}
-              <div className="bg-gradient-to-r from-pink-50 to-pupple-50 rounded-xl p-3 mb-3">
+              <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-3 mb-3">
                 <p className="text-gray-800 text-sm font-medium">
-                  {settings.customPrompt}
+                  {settings.custom_prompt}
                 </p>
               </div>
 
@@ -113,14 +125,12 @@ export function LivePreview({ settings }: LivePreviewProps) {
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600">Icon:</span>
-            <Badge variant="secondary">{settings.selectedIcon}</Badge>
+            <Badge variant="secondary">{settings.selected_icon}</Badge>
           </div>
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600">Min Length:</span>
             <span>
-              {settings.requireMinLength
-                ? `${settings.minLength} chars`
-                : "None"}
+              {settings.min_length ? `${settings.min_length} chars` : "None"}
             </span>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import { Database } from "./types_db";
 
 type Message = Database['public']['Tables']['anonymous_messages']['Row'];
+type Settings = Database['public']['Tables']['anonymous_messaging_settings']['Row'];
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 interface SearchParamsInterface{ SearchParams : Promise<{ [key: string]: string | string[] | undefined }>}

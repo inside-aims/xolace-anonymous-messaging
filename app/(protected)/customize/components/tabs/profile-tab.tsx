@@ -12,12 +12,12 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { User, Upload } from "lucide-react";
-import type { UserSettings } from "@/app/(open)/[userId]/types";
+import type { Settings } from "@/types/global";
 import * as LucideIcons from "lucide-react";
 
 interface ProfileTabProps {
-  settings: UserSettings;
-  onUpdate: (updates: Partial<UserSettings>) => void;
+  settings: Settings;
+  onUpdate: (updates: Partial<Settings>) => void;
 }
 
 const availableIcons = [
@@ -44,12 +44,6 @@ const availableIcons = [
 ];
 
 export function ProfileTab({ settings, onUpdate }: ProfileTabProps) {
-  const handleAvatarUpload = () => {
-    // In a real app, this would handle file upload
-    const newAvatarUrl = `/placeholder.svg?height=64&width=64&query=avatar+${Math.random()}`;
-    onUpdate({ avatarUrl: newAvatarUrl });
-  };
-
   return (
     <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-xl rounded-2xl">
       <CardHeader>
@@ -65,14 +59,14 @@ export function ProfileTab({ settings, onUpdate }: ProfileTabProps) {
         <div className="flex items-center gap-6">
           <Avatar className="w-20 h-20 ring-4 ring-lavender-200">
             <AvatarImage
-              src={settings.avatarUrl || "/placeholder.svg"}
+              src={settings.avatar_url || "/placeholder.svg"}
               alt={settings.username}
             />
             <AvatarFallback className="bg-gradient-to-br from-lavender-400 to-ocean-400 text-white text-2xl font-bold">
               {settings.username.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <Button
               onClick={handleAvatarUpload}
               variant="outline"
@@ -84,7 +78,7 @@ export function ProfileTab({ settings, onUpdate }: ProfileTabProps) {
             <p className="text-sm text-gray-500 mt-2">
               Upload a profile picture or use the generated avatar
             </p>
-          </div>
+          </div> */}
         </div>
 
         <div className="space-y-2">
@@ -105,8 +99,8 @@ export function ProfileTab({ settings, onUpdate }: ProfileTabProps) {
           <Label htmlFor="pageTitle">Page Subtitle</Label>
           <Input
             id="pageTitle"
-            value={settings.pageTitle}
-            onChange={(e) => onUpdate({ pageTitle: e.target.value })}
+            value={settings.page_title}
+            onChange={(e) => onUpdate({ page_title: e.target.value })}
             placeholder="e.g., ask me anything, anonymously"
             className="rounded-xl border-2"
           />
@@ -120,18 +114,18 @@ export function ProfileTab({ settings, onUpdate }: ProfileTabProps) {
           <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 gap-2">
             {availableIcons.map((iconName) => {
               const IconComponent =
-                LucideIcons[iconName as keyof typeof LucideIcons];
+                LucideIcons[iconName as keyof typeof LucideIcons] as React.ElementType;
               if (!IconComponent) return null;
               return (
                 <Button
                   key={iconName}
                   variant={
-                    settings.selectedIcon === iconName ? "default" : "outline"
+                    settings.selected_icon === iconName ? "default" : "outline"
                   }
                   size="icon"
-                  onClick={() => onUpdate({ selectedIcon: iconName })}
+                  onClick={() => onUpdate({ selected_icon: iconName })}
                   className={`rounded-xl ${
-                    settings.selectedIcon === iconName
+                    settings.selected_icon === iconName
                       ? "bg-purple-500 hover:bg-purple-600 text-white"
                       : "bg-transparent hover:bg-gray-100 text-gray-700"
                   }`}

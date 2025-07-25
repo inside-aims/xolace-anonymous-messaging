@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Settings } from "lucide-react";
-import type { UserSettings } from "../../../../(open)/[userId]/types";
+import type { Settings as UserSettings } from "@/types/global";
 
 interface AdvancedTabProps {
   settings: UserSettings;
@@ -39,9 +39,9 @@ export function AdvancedTab({ settings, onUpdate }: AdvancedTabProps) {
             </p>
           </div>
           <Switch
-            checked={settings.showCharacterCount}
+            checked={settings.show_character_count}
             onCheckedChange={(checked) =>
-              onUpdate({ showCharacterCount: checked })
+              onUpdate({ show_character_count: checked })
             }
           />
         </div>
@@ -54,22 +54,22 @@ export function AdvancedTab({ settings, onUpdate }: AdvancedTabProps) {
             </p>
           </div>
           <Switch
-            checked={settings.requireMinLength}
+            checked={settings.min_length}
             onCheckedChange={(checked) =>
-              onUpdate({ requireMinLength: checked })
+              onUpdate({ min_length: checked })
             }
           />
         </div>
 
-        {settings.requireMinLength && (
+        {settings.min_length && (
           <div className="space-y-2">
             <Label htmlFor="minLength">Minimum Characters</Label>
             <Input
               id="minLength"
               type="number"
-              value={settings.minLength}
+              value={settings.min_length}
               onChange={(e) =>
-                onUpdate({ minLength: Number.parseInt(e.target.value) || 10 })
+                onUpdate({ min_length: Number.parseInt(e.target.value) || 10 })
               }
               min="1"
               max="100"
