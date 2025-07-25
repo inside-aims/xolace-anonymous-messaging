@@ -34,7 +34,7 @@ export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormPro
           className="min-h-[120px] resize-none border-2 border-white/20 bg-white/90 backdrop-blur-sm rounded-2xl text-gray-800 placeholder:text-gray-500 focus:border-white/40 focus:ring-0 text-lg p-4"
           maxLength={500}
         />
-        {settings.showCharacterCount && (
+        {settings.show_character_count && (
           <div className="absolute bottom-3 right-3 text-xs text-gray-400 bg-white/80 px-2 py-1 rounded-full">
             {message.length}/500
           </div>
