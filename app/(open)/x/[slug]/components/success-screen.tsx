@@ -10,6 +10,7 @@ interface SuccessScreenProps {
 }
 
 export function SuccessScreen({ onSendAnother }: SuccessScreenProps) {
+  const mainDomain = process.env.NEXT_PUBLIC_APP_URL || "https://xolace.app"
   return (
     <div className="min-h-screen bg-gradient-to-br from-ocean-400 via-lavender-500 to-lavender-600 flex items-center justify-center p-4 relative overflow-hidden">
       <div className="absolute -inset-0 z-0 flex items-center justify-center pointer-events-none">
@@ -24,26 +25,25 @@ export function SuccessScreen({ onSendAnother }: SuccessScreenProps) {
 
           <h2 className="text-2xl font-bold text-gray-900 mb-3">Message Delivered!</h2>
           <p className="text-gray-600 mb-8 leading-relaxed">
-            Your anonymous message has been sent successfully. Thank you for spreading positivity!
+            Join Xolace today and share your positivity with the community✨
           </p>
 
           <div className="space-y-3">
-            <Button
-              onClick={onSendAnother}
+          <Link href={`${mainDomain}/signup`}>
+            <Button    
               className="w-full relative inline-flex h-10 overflow-hidden rounded-3xl text-lg font-semibold shadow-lg transform transition-all hover:scale-102 px-8 border border-neutral-500"
             >
               <span className="m-2 absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]"></span>
               <span className="inline-flex h-full w-full items-center justify-center whitespace-nowrap rounded-md px-8 py-2 text-lg font-medium text-white backdrop-blur-2xl">
-                <Heart className="w-4 h-4 mr-2" />
-                Send Another Message
+                <Heart className="w-4 h-4 mr-2" />                
+                Create Your Own Page
               </span>
             </Button>
+          </Link>
 
-            <Link href="/">
-              <Button variant="outline" className="w-full h-10 rounded-3xl py-3 bg-transparent border border-neutral-400">
-                Create Your Own Page
+              <Button variant="outline" className="w-full h-10 rounded-3xl py-3 bg-transparent border border-neutral-400" onClick={onSendAnother}>
+              Send Another Message
               </Button>
-            </Link>
           </div>
         </CardContent>
       </Card>

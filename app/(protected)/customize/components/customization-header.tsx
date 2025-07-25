@@ -12,7 +12,7 @@ interface CustomizationHeaderProps {
 export function CustomizationHeader({ onSave, isSaving }: CustomizationHeaderProps) {
   return (
     <div className="w-full flex flex-col items-start items-center justify-between gap-4">
-      <Link href="/">
+      <Link href="/dashboard">
         <Button variant="ghost" size="sm">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Dashboard

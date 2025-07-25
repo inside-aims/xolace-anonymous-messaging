@@ -36,15 +36,13 @@ const DashboardClient = () =>{
              // Use window.location.origin to be environment-agnostic
              return `${window.location.origin}/x/${settings.shareable_slug}`;
          }
-         return "Loading your link...";
+         return "Generating your link...";
      }, [settings]);
   
     const copyLink = async () => {
       try {
         await navigator.clipboard.writeText(userLink);
-        toast.success("Link copied!", {
-          description: "Link has been successfully copied to clipboard."
-        });
+        toast.success("Link copied!");
       } catch (err) {
         toast.error("Failed to copy");
       }
@@ -94,7 +92,7 @@ const DashboardClient = () =>{
             </div>
             <div className={"w-full flex items-center justify-between"}>
               <div className="flex gap-4">
-                <Link href={userLink}>
+                <Link href={`${userLink}?preview=true`}>
                   <Button variant="outline" size="sm" className="h-9">
                     <Eye className="h-4 w-4 mr-2"/>
                     Preview
@@ -114,8 +112,9 @@ const DashboardClient = () =>{
                 <Link href={"/customize"}>
                   <Button
                     size="sm"
-                    className=" h-9 w-9 rounded-full border border-neutral-400"
+                    className=" h-9 rounded-full border border-neutral-400"
                   >
+                    <span className='hidden md:inline'>Customize</span>
                     <UserPen/>
                   </Button>
                 </Link>

@@ -89,6 +89,7 @@ export function ProfileTab({ settings, onUpdate }: ProfileTabProps) {
             onChange={(e) => onUpdate({ username: e.target.value })}
             placeholder="Enter your username"
             className="rounded-xl border-2"
+            disabled
           />
           <p className="text-sm text-gray-500">
             This will appear as @{settings.username} on your page

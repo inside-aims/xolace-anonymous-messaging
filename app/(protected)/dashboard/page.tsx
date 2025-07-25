@@ -14,7 +14,7 @@ export default function Dashboard() {
             📬 Your Anonymous Messages
           </h1>
           <p className="text-gray-600 text-lg">
-            Share your link and receive kind, anonymous messages
+            Share your link and receive kind or probably not so kind, anonymous messages
           </p>
         </div>
 

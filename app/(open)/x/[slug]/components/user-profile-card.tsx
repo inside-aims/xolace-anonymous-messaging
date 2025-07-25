@@ -3,7 +3,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Lock } from "lucide-react"
 import type { Settings } from "@/types/global"
-import dynamic from "next/dynamic"
 import * as LucideIcons from "lucide-react"
 
 interface UserProfileCardProps {
@@ -11,13 +10,10 @@ interface UserProfileCardProps {
 }
 
 export function UserProfileCard({ settings }: UserProfileCardProps) {
-  // Dynamically import the selected icon component
+
   const IconComponent = settings.selected_icon
-    ? dynamic(() => Promise.resolve(LucideIcons[settings.selected_icon as keyof typeof LucideIcons]), {
-        ssr: false,
-        loading: () => <div className="w-5 h-5" />, // Placeholder while loading
-      })
-    : null
+    ? LucideIcons[settings.selected_icon as keyof typeof LucideIcons] as React.ElementType
+    : LucideIcons.HelpCircle
 
   return (
     <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-white/20">
@@ -37,9 +33,9 @@ export function UserProfileCard({ settings }: UserProfileCardProps) {
           <p className="text-gray-600 text-sm">{settings.page_title}</p>
         </div>
         <Avatar className="w-8 h-8 opacity-60">
-          <AvatarImage src={settings.avatar_url || "/placeholder.svg"} alt={settings.username} />
+          <AvatarImage src={'/assets/images/x-logo-full.webp'} alt={settings.username} />
           <AvatarFallback className="bg-gray-200 text-gray-600 text-xs">
-            {settings.username.slice(0, 1).toUpperCase()}
+            ❤️
           </AvatarFallback>
         </Avatar>
       </div>
@@ -52,7 +48,7 @@ export function UserProfileCard({ settings }: UserProfileCardProps) {
       {/* Anonymous indicator */}
       <div className="flex items-center justify-center gap-2 mt-4 text-gray-500">
         <Lock className="w-4 h-4" />
-        <span className="text-sm font-medium">anonymous q&a</span>
+        <span className="text-sm font-medium">Xolace q&a</span>
       </div>
     </div>
   )

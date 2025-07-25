@@ -5,34 +5,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Eye, Lock } from "lucide-react";
 import type { Settings } from "@/types/global";
-import dynamic from "next/dynamic";
 import * as LucideIcons from "lucide-react";
 import { backgroundThemes } from "./tabs/appearance-tab";
-import { ComponentType } from "react";
 
 interface LivePreviewProps {
   settings: Settings;
 }
 
 export function LivePreview({ settings }: LivePreviewProps) {
-  const IconComponent: ComponentType<{ className?: string }> | null = settings.selected_icon
-    ? dynamic(
-        () =>
-          import("lucide-react").then((mod) => {
-            const IconComp = mod[settings.selected_icon as keyof typeof mod];
-            // Type guard to ensure we have a valid React component
-            if (typeof IconComp === 'function') {
-              return { default: IconComp as ComponentType<{ className?: string }> };
-            }
-            // Fallback to a default icon if the selected icon doesn't exist
-            return { default: mod.HelpCircle as ComponentType<{ className?: string }> };
-          }),
-        {
-          ssr: false,
-          loading: () => <div className="w-4 h-4" />,
-        }
-      )
-    : null;
+  const IconComponent = settings.selected_icon
+      ? LucideIcons[settings.selected_icon as keyof typeof LucideIcons] as React.ElementType
+      : LucideIcons.HelpCircle
 
   return (
     <Card className="sticky top-4 bg-white/70 backdrop-blur-sm border-0 shadow-xl rounded-2xl">
@@ -76,11 +59,11 @@ export function LivePreview({ settings }: LivePreviewProps) {
                 </div>
                 <Avatar className="w-6 h-6 opacity-60">
                   <AvatarImage
-                    src={settings.avatar_url || "/placeholder.svg"}
+                    src={'/assets/images/x-logo-full.webp'}
                     alt={settings.username}
                   />
                   <AvatarFallback className="bg-gray-200 text-gray-600 text-xs">
-                    {settings.username.slice(0, 1).toUpperCase()}
+                    ❤️
                   </AvatarFallback>
                 </Avatar>
               </div>
@@ -95,7 +78,7 @@ export function LivePreview({ settings }: LivePreviewProps) {
               {/* Anonymous indicator */}
               <div className="flex items-center justify-center gap-1 mb-3 text-gray-500">
                 <Lock className="w-3 h-3" />
-                <span className="text-xs">anonymous q&a</span>
+                <span className="text-xs">Xolace q&a</span>
               </div>
 
               {/* Message area preview */}
