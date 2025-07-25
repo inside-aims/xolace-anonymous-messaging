@@ -1,13 +1,19 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Palette } from "lucide-react"
-import type { UserSettings } from "@/app/send/[userId]/types"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Palette } from "lucide-react";
+import type { UserSettings } from "@/app/(open)/send/[userId]/types";
 
 interface AppearanceTabProps {
-  settings: UserSettings
-  onUpdate: (updates: Partial<UserSettings>) => void
+  settings: UserSettings;
+  onUpdate: (updates: Partial<UserSettings>) => void;
 }
 
 const backgroundThemes = [
@@ -41,7 +47,7 @@ const backgroundThemes = [
     name: "Dark Mode",
     preview: "bg-gradient-to-br from-gray-900 via-purple-900 to-violet-600",
   },
-]
+];
 
 export function AppearanceTab({ settings, onUpdate }: AppearanceTabProps) {
   return (
@@ -51,7 +57,9 @@ export function AppearanceTab({ settings, onUpdate }: AppearanceTabProps) {
           <Palette className="h-5 w-5" />
           Visual Appearance
         </CardTitle>
-        <CardDescription>Choose colors and themes for your message page</CardDescription>
+        <CardDescription>
+          Choose colors and themes for your message page
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -68,11 +76,17 @@ export function AppearanceTab({ settings, onUpdate }: AppearanceTabProps) {
                       : "border-gray-200 hover:border-gray-300"
                   }`}
                 >
-                  <div className={`w-full h-16 rounded-lg ${theme.preview} mb-2`}></div>
-                  <p className="text-sm font-medium text-center">{theme.name}</p>
+                  <div
+                    className={`w-full h-16 rounded-lg ${theme.preview} mb-2`}
+                  ></div>
+                  <p className="text-sm font-medium text-center">
+                    {theme.name}
+                  </p>
                   {settings.backgroundGradient === theme.id && (
                     <div className="absolute -top-2 -right-2">
-                      <Badge className="bg-purple-500 text-white">Selected</Badge>
+                      <Badge className="bg-purple-500 text-white">
+                        Selected
+                      </Badge>
                     </div>
                   )}
                 </button>
@@ -82,5 +96,5 @@ export function AppearanceTab({ settings, onUpdate }: AppearanceTabProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

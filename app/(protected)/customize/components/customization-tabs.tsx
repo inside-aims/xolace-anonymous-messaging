@@ -1,18 +1,21 @@
-"use client"
+"use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ProfileTab } from "./tabs/profile-tab"
-import { ContentTab } from "./tabs/content-tab"
-import { AppearanceTab } from "./tabs/appearance-tab"
-import { AdvancedTab } from "./tabs/advanced-tab"
-import type { UserSettings } from "../../send/[userId]/types"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ProfileTab } from "./tabs/profile-tab";
+import { ContentTab } from "./tabs/content-tab";
+import { AppearanceTab } from "./tabs/appearance-tab";
+import { AdvancedTab } from "./tabs/advanced-tab";
+import type { UserSettings } from "../../../(open)/send/[userId]/types";
 
 interface CustomizationTabsProps {
-  settings: UserSettings
-  onUpdate: (updates: Partial<UserSettings>) => void
+  settings: UserSettings;
+  onUpdate: (updates: Partial<UserSettings>) => void;
 }
 
-export function CustomizationTabs({ settings, onUpdate }: CustomizationTabsProps) {
+export function CustomizationTabs({
+  settings,
+  onUpdate,
+}: CustomizationTabsProps) {
   return (
     <Tabs defaultValue="profile" className="w-full">
       <TabsList className="grid w-full grid-cols-4 bg-white/50 backdrop-blur-sm rounded-2xl p-1">
@@ -46,5 +49,5 @@ export function CustomizationTabs({ settings, onUpdate }: CustomizationTabsProps
         <AdvancedTab settings={settings} onUpdate={onUpdate} />
       </TabsContent>
     </Tabs>
-  )
+  );
 }

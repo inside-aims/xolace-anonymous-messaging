@@ -1,15 +1,21 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { MessageSquare } from "lucide-react"
-import type { UserSettings } from "../../../send/[userId]/types"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { MessageSquare } from "lucide-react";
+import type { UserSettings } from "../../../../(open)/send/[userId]/types";
 
 interface ContentTabProps {
-  settings: UserSettings
-  onUpdate: (updates: Partial<UserSettings>) => void
+  settings: UserSettings;
+  onUpdate: (updates: Partial<UserSettings>) => void;
 }
 
 const promptTemplates = [
@@ -19,7 +25,7 @@ const promptTemplates = [
   "Send me your best advice or encouragement!",
   "What's a question you're too shy to ask in person?",
   "Share a compliment or kind words with me!",
-]
+];
 
 export function ContentTab({ settings, onUpdate }: ContentTabProps) {
   return (
@@ -29,7 +35,9 @@ export function ContentTab({ settings, onUpdate }: ContentTabProps) {
           <MessageSquare className="h-5 w-5" />
           Content & Messaging
         </CardTitle>
-        <CardDescription>Customize the prompts and messages visitors will see</CardDescription>
+        <CardDescription>
+          Customize the prompts and messages visitors will see
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-2">
@@ -41,7 +49,9 @@ export function ContentTab({ settings, onUpdate }: ContentTabProps) {
             placeholder="What would you like people to write about?"
             className="min-h-[100px] rounded-xl border-2"
           />
-          <p className="text-sm text-gray-500">This question will be prominently displayed to encourage responses</p>
+          <p className="text-sm text-gray-500">
+            This question will be prominently displayed to encourage responses
+          </p>
         </div>
 
         <div className="space-y-3">
@@ -73,5 +83,5 @@ export function ContentTab({ settings, onUpdate }: ContentTabProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

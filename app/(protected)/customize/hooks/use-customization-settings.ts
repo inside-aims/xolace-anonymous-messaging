@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { toast } from "sonner"
-import type { UserSettings } from "../../send/[userId]/types"
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
+import type { UserSettings } from "../../../(open)/send/[userId]/types";
 
 const defaultSettings: UserSettings = {
   username: "johndoe",
@@ -15,31 +15,31 @@ const defaultSettings: UserSettings = {
   minLength: 10,
   welcomeMessage: "Your thoughts matter to me. Share them anonymously!",
   selectedIcon: "Heart", // Default icon
-}
+};
 
 export function useCustomizationSettings() {
-  const [settings, setSettings] = useState<UserSettings>(defaultSettings)
+  const [settings, setSettings] = useState<UserSettings>(defaultSettings);
 
   useEffect(() => {
-    const savedSettings = localStorage.getItem("messagePageSettings")
+    const savedSettings = localStorage.getItem("messagePageSettings");
     if (savedSettings) {
       try {
-        const parsed = JSON.parse(savedSettings)
-        setSettings({ ...defaultSettings, ...parsed })
+        const parsed = JSON.parse(savedSettings);
+        setSettings({ ...defaultSettings, ...parsed });
       } catch (error) {
-        console.error("Error loading settings:", error)
+        console.error("Error loading settings:", error);
       }
     }
-  }, [])
+  }, []);
 
   const updateSettings = (updates: Partial<UserSettings>) => {
-    setSettings((prev) => ({ ...prev, ...updates }))
-  }
+    setSettings((prev) => ({ ...prev, ...updates }));
+  };
 
   const saveSettings = () => {
-    localStorage.setItem("messagePageSettings", JSON.stringify(settings))
-    toast.success("Settings saved!")
-  }
+    localStorage.setItem("messagePageSettings", JSON.stringify(settings));
+    toast.success("Settings saved!");
+  };
 
-  return { settings, updateSettings, saveSettings }
+  return { settings, updateSettings, saveSettings };
 }
