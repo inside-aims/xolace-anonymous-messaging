@@ -58,22 +58,22 @@ export function useMarkMessageAsRead(userId?: string) {
     });
 }
 
-export function useUpdateMessageSettings() {
+export function useUpdateMessageSettings(userId: string) {
     const queryClient = useQueryClient();
     const supabase = getSupabaseBrowserClient();
 
     return useMutation({
         mutationFn: async (updatedSettings: Partial<Settings>) => {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) throw new Error("User not authenticated.");
+            if (!userId) throw new Error("User not authenticated.");
 
             // Remove user_id from the update payload as it cannot be changed.
             const { user_id, ...settingsToUpdate } = updatedSettings;
 
+            console.log("settingsToUpdate ", settingsToUpdate)
             const { data, error } = await supabase
                 .from('anonymous_messaging_settings')
                 .update({ ...settingsToUpdate, updated_at: new Date().toISOString() })
-                .eq('user_id', user.id)
+                .eq('user_id', userId)
                 .select()
                 .single();
             
@@ -82,10 +82,11 @@ export function useUpdateMessageSettings() {
         },
         onSuccess: (data) => {
             // Invalidate the query to ensure the cache is fresh for the next visit.
-            queryClient.invalidateQueries({ queryKey: ['message-settings', data.user_id] });
+            queryClient.invalidateQueries({ queryKey: ['message-settings', userId] });
             toast.success("Your settings have been saved!");
         },
         onError: (error) => {
+            console.log(error)
             toast.error("Failed to save settings", { description: error.message });
         }
     });

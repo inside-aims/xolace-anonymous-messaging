@@ -15,7 +15,7 @@ export default function CustomizePage() {
   const { data: serverSettings, isLoading } = useMessageSettings(user?.id);
   
   // 2. Get the mutation function for saving changes
-  const { mutate: saveSettings, isPending: isSaving } = useUpdateMessageSettings();
+  const { mutate: saveSettings, isPending: isSaving } = useUpdateMessageSettings(user?.id);
 
   // 3. Create a local "draft" state to manage edits. This allows for instant UI updates.
   const [draftSettings, setDraftSettings] = useState<Settings | null>(null);
@@ -37,6 +37,7 @@ export default function CustomizePage() {
   const handleSave = () => {
     // The save button triggers the mutation, sending the entire draft state to the backend
     if (draftSettings) {
+      console.log(draftSettings)
       saveSettings(draftSettings);
     }
   };

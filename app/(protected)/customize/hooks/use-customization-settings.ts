@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import type { UserSettings } from "../../../(open)/[userId]/types";
+import type { UserSettings } from "../../../(open)/x/[userId]/types";
 
 const defaultSettings: UserSettings = {
   username: "johndoe",

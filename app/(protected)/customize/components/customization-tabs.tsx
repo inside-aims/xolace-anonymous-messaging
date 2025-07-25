@@ -5,11 +5,11 @@ import { ProfileTab } from "./tabs/profile-tab";
 import { ContentTab } from "./tabs/content-tab";
 import { AppearanceTab } from "./tabs/appearance-tab";
 import { AdvancedTab } from "./tabs/advanced-tab";
-import type { UserSettings } from "../../../(open)/[userId]/types";
+import type { Settings } from "@/types/global";
 
 interface CustomizationTabsProps {
-  settings: UserSettings;
-  onUpdate: (updates: Partial<UserSettings>) => void;
+  settings: Settings;
+  onUpdate: (updates: Partial<Settings>) => void;
 }
 
 export function CustomizationTabs({
