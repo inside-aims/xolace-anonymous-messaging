@@ -6,6 +6,7 @@ export const updateSession = async (request: NextRequest) => {
   // Feel free to remove once you have Supabase connected.
   console.log(process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY)
   console.log(process.env.NEXT_PUBLIC_SUPABASE_URL)
+  console.log(process.env.ROOT_DOMAIN)
   try {
     // Create an unmodified response
     let response = NextResponse.next({
@@ -35,9 +36,17 @@ export const updateSession = async (request: NextRequest) => {
             response = NextResponse.next({
               request,
             });
-            cookiesToSet.forEach(({ name, value, options }) =>
-              response.cookies.set(name, value, options),
-            );
+            cookiesToSet.forEach(({ name, value, options }) =>{
+              const cookieOptions = {
+                ...options,
+                // Only set domain for production/preview, not localhost
+                ...(process.env.NODE_ENV === 'production' && { domain: `.${process.env.ROOT_DOMAIN}` }),
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'lax' as const,
+                path: '/',
+              }
+              response.cookies.set(name, value, cookieOptions)
+            });
           },
         },
       },
