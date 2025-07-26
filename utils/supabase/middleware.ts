@@ -23,7 +23,7 @@ export const updateSession = async (request: NextRequest) => {
           path: '/',
           sameSite: 'lax',
           secure: true,
-          domain: process.env.NODE_ENV === 'production' ? `.${process.env.ROOT_DOMAIN}` : undefined,
+          domain: `.xolace.app`,
         },
         cookies: {
           getAll() {
