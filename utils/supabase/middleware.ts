@@ -22,7 +22,7 @@ export const updateSession = async (request: NextRequest) => {
           path: '/',
           sameSite: 'lax',
           secure: true,
-          domain: process.env.NODE_ENV === 'production' ? `.${process.env.NEXT_PUBLIC_APP_URL}` : undefined,
+          domain: process.env.NODE_ENV === 'production' ? `.${process.env.ROOT_DOMAIN}` : undefined,
         },
         cookies: {
           getAll() {
