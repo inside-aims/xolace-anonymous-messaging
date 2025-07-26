@@ -30,6 +30,8 @@ const DashboardClient = () =>{
      const { mutate: markAsRead } = useMarkMessageAsRead(user?.id);
  
      const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+
+     const [isShareProfileCard, setIsShareProfileCard] = useState(false);
    
      // 2. Dynamically construct the user's shareable link
      const userLink = useMemo(() => {
@@ -72,6 +74,10 @@ const DashboardClient = () =>{
         toast.error("Error loading messages")
     }
 
+    const handleShareProfileCard = () => {
+      setIsShareProfileCard(true);
+    }
+
   return (
     <>
          {/* Link Sharing Card */}
@@ -104,7 +110,9 @@ const DashboardClient = () =>{
                 </Link>
                 <Button
                   className="relative inline-flex h-9 overflow-hidden rounded-md focus:outline-none shadow-lg transform transition-all hover:scale-105 ">
-                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]">
+                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]"
+                          onClick={handleShareProfileCard}
+                    >
                     </span>
                   <span className="inline-flex h-full w-full items-center justify-center whitespace-nowrap rounded-md text-white backdrop-blur-sm">
                       <Share2 className="h-4 w-4 mr-2" />
@@ -207,6 +215,13 @@ const DashboardClient = () =>{
             onClose={() => setSelectedMessage(null)}
           />
         )}
+      {isShareProfileCard && (
+        <MessageModal
+          message={"Here hre"}
+          isOpen={isShareProfileCard}
+          onClose={() => isShareProfileCard(false)}
+        />
+      )}
     </>
   )
 }

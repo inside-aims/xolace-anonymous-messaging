@@ -44,7 +44,12 @@ export function MessageSendingContainer({ settings, onSubmit, isSubmitting, isPr
         <div className="flex flex-col items-center justify-center px-4 py-8">
           <div className="w-full max-w-md space-y-8">
             <UserProfileCard settings={settings}/>
-            <MessageForm settings={settings} onSubmit={onSubmit} isSubmitting={isSubmitting}/>
+            <MessageForm
+              settings={settings}
+              onSubmit={onSubmit}
+              isSubmitting={isSubmitting}
+              isPreview={isPreview}
+            />
           </div>
         </div>
       </div>

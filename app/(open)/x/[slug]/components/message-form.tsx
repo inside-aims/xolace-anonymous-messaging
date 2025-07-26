@@ -14,9 +14,10 @@ interface MessageFormProps {
   settings: Settings
   onSubmit: (message: string) => void
   isSubmitting: boolean
+  isPreview: boolean
 }
 
-export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormProps) {
+export function MessageForm({ settings, onSubmit, isSubmitting, isPreview }: MessageFormProps) {
   const [message, setMessage] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -74,12 +75,12 @@ export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormPro
           </>
         )}
       </Button>
-      <div className="flex items-center justify-center gap-3">
+      <div className={`${isPreview ? "hidden" : "flex items-center justify-center gap-3"}`}>
         <Separator className="flex-1 bg-white"/>
         <span className="text-sm text-white">OR</span>
         <Separator className="flex-1 bg-white"/>
       </div>
-      <BottomSection/>
+      {!isPreview && ( <BottomSection/>)}
     </form>
   )
 }
