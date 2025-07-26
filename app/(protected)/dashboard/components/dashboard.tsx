@@ -136,7 +136,7 @@ const DashboardClient = () =>{
                 Your Messages
                 {unreadCount > 0 && (
                   <Badge variant="destructive" className="ml-2">
-                    {unreadCount} new
+                    {unreadCount} unread
                   </Badge>
                 )}
               </div>
