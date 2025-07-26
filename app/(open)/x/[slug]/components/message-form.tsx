@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Send } from "lucide-react"
 import type { Settings } from "@/types/global"
+import {Separator} from "@/components/ui/separator";
+import {BottomSection} from "@/app/(open)/x/[slug]/components/bottom-section";
 
 interface MessageFormProps {
   settings: Settings
@@ -58,20 +60,26 @@ export function MessageForm({ settings, onSubmit, isSubmitting }: MessageFormPro
       <Button
         type="submit"
         disabled={!isValid || isSubmitting}
-        className="w-full bg-lavender-600 hover:bg-lavender-700 text-white font-semibold py-4 rounded-3xl h-10 text-lg shadow-xl transform transition-all hover:scale-102 disabled:hover:scale-100"
+        className="w-full bg-lavender-600 hover:bg-lavender-700 text-white font-semibold rounded-3xl text-lg shadow-xl h-12 transform transition-all hover:scale-102 disabled:hover:scale-100"
       >
         {isSubmitting ? (
           <>
-            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3" />
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"/>
             Sending anonymously...
           </>
         ) : (
           <>
-            <Send className="w-5 h-5 mr-3" />
+            <Send className="w-5 h-5 mr-3"/>
             Send Anonymous Message
           </>
         )}
       </Button>
+      <div className="flex items-center justify-center gap-3">
+        <Separator className="flex-1 bg-white"/>
+        <span className="text-sm text-white">OR</span>
+        <Separator className="flex-1 bg-white"/>
+      </div>
+      <BottomSection/>
     </form>
   )
 }

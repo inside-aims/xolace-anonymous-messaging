@@ -3,10 +3,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Lock } from "lucide-react";
+import {Eye, Lock, Send} from "lucide-react";
 import type { Settings } from "@/types/global";
 import * as LucideIcons from "lucide-react";
 import { backgroundThemes } from "./tabs/appearance-tab";
+import type React from "react";
 
 interface LivePreviewProps {
   settings: Settings;
@@ -70,14 +71,22 @@ export function LivePreview({ settings }: LivePreviewProps) {
 
               {/* Prompt */}
               <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-3 mb-3">
-                <p className="text-gray-800 text-sm font-medium">
+                <p className="text-gray-800 text-sm font-medium overflow-hidden text-ellipsis break-words"
+                   style={{
+                     display: '-webkit-box',
+                     WebkitLineClamp: 2,
+                     WebkitBoxOrient: 'vertical',
+                     overflow: 'hidden'
+                   }}
+                >
                   {settings.custom_prompt}
                 </p>
+
               </div>
 
               {/* Anonymous indicator */}
               <div className="flex items-center justify-center gap-1 mb-3 text-gray-500">
-                <Lock className="w-3 h-3" />
+                <Lock className="w-3 h-3"/>
                 <span className="text-xs">Xolace q&a</span>
               </div>
 
@@ -93,7 +102,8 @@ export function LivePreview({ settings }: LivePreviewProps) {
               )}
 
               <div className="bg-lavender-500 text-white rounded-xl p-2 text-center">
-                <div className="text-xs font-medium">
+                <div className="flex items-center justify-center text-xs font-medium">
+                  <Send className="w-3 h-3 mr-3"/>
                   Send Anonymous Message
                 </div>
               </div>
