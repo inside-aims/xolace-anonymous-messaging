@@ -18,6 +18,12 @@ export const updateSession = async (request: NextRequest) => {
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY!,
       {
+        cookieOptions:{
+          path: '/',
+          sameSite: 'lax',
+          secure: true,
+          domain: process.env.NODE_ENV === 'production' ? `.${process.env.NEXT_PUBLIC_APP_URL}` : undefined,
+        },
         cookies: {
           getAll() {
             return request.cookies.getAll();
