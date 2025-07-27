@@ -3,7 +3,7 @@ import { CustomizationHeader } from "./components/customization-header"
 import { CustomizationTabs } from "./components/customization-tabs"
 import { LivePreview } from "./components/live-preview"
 import { useMessageSettings, useUpdateMessageSettings } from "@/hooks/useAnonymousMessages"
-import { useEffect, useState } from "react"
+import {useEffect, useMemo, useState} from "react"
 import { useUserState } from "@/lib/store/user"
 import type {Settings} from "@/types/global"
 
@@ -12,6 +12,8 @@ export default function CustomizePage() {
 
   // 1. Fetch the source-of-truth settings from the database
   const { data: serverSettings, isLoading } = useMessageSettings(user?.id);
+  const { data: settings } = useMessageSettings(user?.id);
+
   
   // 2. Get the mutation function for saving changes
   const { mutate: saveSettings, isPending: isSaving } = useUpdateMessageSettings(user?.id);
@@ -34,6 +36,14 @@ export default function CustomizePage() {
     }
   };
 
+  const userLink = useMemo(() => {
+    if (settings?.shareable_slug) {
+      // Use window.location.origin to be environment-agnostic
+      return `${window.location.origin}/x/${settings.shareable_slug}`;
+    }
+    return "Generating your link...";
+  }, [settings]);
+
   const handleSave = () => {
     // The save button triggers the mutation, sending the entire draft state to the backend
     if (draftSettings) {
@@ -49,7 +59,7 @@ export default function CustomizePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-lavender-50 via-ocean-50 to-moss-50 p-4">
       <div className="max-w-7xl mx-auto space-y-6">
-      <CustomizationHeader onSave={handleSave} isSaving={isSaving} />
+      <CustomizationHeader onSave={handleSave} isSaving={isSaving} userLink={userLink} />
 
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           <div className="xl:col-span-2">

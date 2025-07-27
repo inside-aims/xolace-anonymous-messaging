@@ -6,10 +6,14 @@ import { toast } from "sonner"
 import { MessageSendingContainer } from "./components/message-sending-container"
 import { SuccessScreen } from "./components/success-screen"
 import { useMessagePageSettings, useSendMessage } from "@/hooks/useSendMessage";
+import {useSearchParams} from "next/navigation";
 
 export default function SendMessagePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params)
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const searchParams = useSearchParams()
+  const isPreview = searchParams.get("preview") === "true"
 
   // 1. Fetch the page settings using the slug from the URL
   const { data: settings, isLoading, isError, error } = useMessagePageSettings(slug);
@@ -69,6 +73,7 @@ export default function SendMessagePage({ params }: { params: Promise<{ slug: st
       settings={settings}
       onSubmit={handleSubmit}
       isSubmitting={isSubmitting}
+      isPreview={isPreview}
     />
   );
 }

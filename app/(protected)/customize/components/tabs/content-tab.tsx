@@ -63,7 +63,7 @@ export function ContentTab({ settings, onUpdate }: ContentTabProps) {
                 variant="outline"
                 size="sm"
                 onClick={() => onUpdate({ custom_prompt: template })}
-                className="text-left justify-start h-auto p-3 rounded-xl text-sm"
+                className="text-left break-words  whitespace-normal justify-start h-auto p-3 rounded-xl text-sm"
               >
                 {template}
               </Button>

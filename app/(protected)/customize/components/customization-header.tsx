@@ -3,16 +3,20 @@
 import { Button } from "@/components/ui/button"
 import { Save, Eye, ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import {useMemo} from "react";
+import {useMessageSettings} from "@/hooks/useAnonymousMessages";
 
 interface CustomizationHeaderProps {
   onSave: () => void
   isSaving: boolean
+  userLink?: string;
 }
 
-export function CustomizationHeader({ onSave, isSaving }: CustomizationHeaderProps) {
+export function CustomizationHeader({ onSave, isSaving, userLink }: CustomizationHeaderProps) {
+
   return (
     <div className="w-full flex flex-col items-start items-center justify-between gap-4">
-      <Link href="/dashboard">
+      <Link href={"/dashboard"}>
         <Button variant="ghost" size="sm">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Dashboard
@@ -24,7 +28,7 @@ export function CustomizationHeader({ onSave, isSaving }: CustomizationHeaderPro
           <p className="text-gray-600 mt-1">Personalize how others see your anonymous message page</p>
         </div>
         <div className="w-full flex items-end md:items-center justify-end gap-4">
-          <Link href={"/send/johndoe"}>
+          <Link href={`${userLink}?preview=true`}>
             <Button variant="outline" className="rounded-lg bg-transparent border border-neutral-300 hover:border-neutral-400 transition-transform duration-150 ease-in-out duration-100 hover:scale-102">
               <Eye className="h-4 w-4 mr-2"/>
               Preview
