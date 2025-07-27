@@ -184,7 +184,7 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
       <div className="fixed -top-full -left-full pointer-events-none">
         <div className="fixed -top-full -left-full pointer-events-none">
           <ProfileCard
-            avatarUrl={""}
+            avatarUrl={settings.avatar_url}
             message={settings.custom_prompt}
             link={userLinks}
             date={new Date().toLocaleString("en-US", {

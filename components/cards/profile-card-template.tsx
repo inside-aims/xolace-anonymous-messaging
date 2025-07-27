@@ -16,7 +16,7 @@ export const ProfileCard = ({ avatarUrl, message, date, templateId, variant, lin
     "w-[400px] h-[500px] p-8 rounded-3xl shadow-2xl flex flex-col justify-center items-center text-center relative overflow-hidden"
 
   const variants = {
-    classic: "bg-white text-black border border-gray-300",
+    classic: "bg-gradient-to-br from-ocean-500 via-lavender-400 to-ocean-400 text-black border border-gray-300",
     modern: "bg-gradient-to-br from-blue-600 via-teal-500 to-green-400 text-white",
     artistic: "bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 text-white"
   }
@@ -24,7 +24,7 @@ export const ProfileCard = ({ avatarUrl, message, date, templateId, variant, lin
   const badgeStyle = {
     classic: "text-xs text-gray-600 font-semibold",
     modern: "text-xs text-white font-bold tracking-wider",
-    artistic: "text-xs text-orange-200 font-semibold italic"
+    artistic: "text-xs text-gray-500/50 font-semibold italic"
   }
 
   return (
@@ -32,7 +32,7 @@ export const ProfileCard = ({ avatarUrl, message, date, templateId, variant, lin
       {/* Avatar and Name */}
       <div className="flex flex-col items-center mb-6">
         <Avatar className="w-16 h-16 ring-4 ring-white/50">
-          <AvatarImage src={avatarUrl || "/placeholder.svg"} alt={`Profile avatar`} />
+          <AvatarImage src={avatarUrl || "/assets/images/x-logo-full.webp"} alt={`Profile avatar`} />
           <AvatarFallback className="bg-gradient-to-br from-lavender-400 to-ocean-400 text-white text-xl font-bold uppercase">
             AN
           </AvatarFallback>

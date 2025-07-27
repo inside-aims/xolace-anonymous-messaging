@@ -26,7 +26,7 @@ const DashboardClient = () =>{
     const { user } = useUserState();
 
      // 1. Fetch live data using our custom hooks
-     const { data: settings, isPending: isLoadingSettings } = useMessageSettings(user?.id);
+     const { data: settings, isPending: isLoadingSettings, isError: isErrorSettings } = useMessageSettings(user?.id);
      const { data: messages, isPending: isLoadingMessages, isFetching: isFetchingMessages, isError: isErrorMessages } = useAnonymousMessages(user?.id);
      const { mutate: markAsRead } = useMarkMessageAsRead(user?.id);
  
@@ -215,7 +215,7 @@ const DashboardClient = () =>{
             onClose={() => setSelectedMessage(null)}
           />
         )}
-      {isShareProfileCard && (
+      {isShareProfileCard && settings && (
         <ShareProfileCardModal
           open={isShareProfileCard}
           onClose={() => setIsShareProfileCard(false)}
