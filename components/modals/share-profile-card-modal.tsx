@@ -25,6 +25,7 @@ type TemplateKey = keyof typeof templateVariants;
 const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => {
   const [isSharing, setIsSharing] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateKey>(1);
+  const userLinks = `${window.location.origin}/x/${settings?.shareable_slug}`
 
   const shareMessage = async () => {
     setIsSharing(true);
@@ -58,8 +59,8 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
               try {
                 console.log("Sharing...")
                 await navigator.share({
-                  title: "Anonymous Message",
-                  text: "Check out this beautiful message I received! 💜",
+                  title: "Xolace Message",
+                  text: userLinks,
                   files: [file],
                 });
                 toast.success("Shared successfully!");
@@ -98,7 +99,7 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
   };
 
   //
-  const userLinks = `${window.location.origin}/x/${settings?.shareable_slug}`
+  
 
   return(
     <Dialog open={open} onOpenChange={onClose}>
