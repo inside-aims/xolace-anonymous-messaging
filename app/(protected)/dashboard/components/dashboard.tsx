@@ -20,6 +20,7 @@ import { useAnonymousMessages, useMessageSettings, useMarkMessageAsRead } from '
 import { Message } from '@/types/global';
 import DashboardSkeletonLoader  from '@/components/loaders/dashboard-loader';
 import { MessagesSkeleton } from '@/components/loaders/message-skeleton';
+import ShareProfileCardModal from "@/components/modals/share-profile-card-modal";
 
 const DashboardClient = () =>{
     const { user } = useUserState();
@@ -109,10 +110,9 @@ const DashboardClient = () =>{
                   </Button>
                 </Link>
                 <Button
+                  onClick={handleShareProfileCard}
                   className="relative inline-flex h-9 overflow-hidden rounded-md focus:outline-none shadow-lg transform transition-all hover:scale-105 ">
-                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]"
-                          onClick={handleShareProfileCard}
-                    >
+                    <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]">
                     </span>
                   <span className="inline-flex h-full w-full items-center justify-center whitespace-nowrap rounded-md text-white backdrop-blur-sm">
                       <Share2 className="h-4 w-4 mr-2" />
@@ -216,11 +216,11 @@ const DashboardClient = () =>{
           />
         )}
       {isShareProfileCard && (
-        <MessageModal
-          message={"Here hre"}
-          isOpen={isShareProfileCard}
-          onClose={() => isShareProfileCard(false)}
-        />
+        <ShareProfileCardModal
+          open={isShareProfileCard}
+          onClose={() => setIsShareProfileCard(false)}
+          settings={settings}
+          />
       )}
     </>
   )
