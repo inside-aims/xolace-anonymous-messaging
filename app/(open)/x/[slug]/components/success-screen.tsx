@@ -29,7 +29,7 @@ export function SuccessScreen({ onSendAnother }: SuccessScreenProps) {
           </p>
 
           <div className="w-full flex flex-col gap-2">
-            <Link href={`${mainDomain}/signup`}>
+            <Link href={`${mainDomain}/sign-up`}>
               <Button
                 className="w-full relative inline-flex h-10 overflow-hidden rounded-3xl  font-semibold text-lg shadow-lg transform transition-all hover:scale-102 px-8"
               >
