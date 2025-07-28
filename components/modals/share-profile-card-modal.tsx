@@ -45,7 +45,6 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
           useCORS: true,
         });
 
-        console.log(canvas)
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         canvas.toBlob(async (blob: any) => {
@@ -57,21 +56,18 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
             // Try native sharing first
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
               try {
-                console.log("Sharing...")
                 await navigator.share({
                   title: "Xolace Message",
                   text: userLinks,
                   files: [file],
                 });
                 toast.success("Shared successfully!");
-              } catch (shareError) {
-                console.log("Sharing error:", shareError)
+              } catch (_) {
                 // User cancelled sharing, fallback to download
                 downloadImage(blob);
               }
             } else {
               // Fallback to download
-              console.log("Fallback to download")
               downloadImage(blob);
             }
           }
