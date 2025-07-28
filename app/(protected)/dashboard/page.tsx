@@ -16,7 +16,7 @@ export default function Dashboard() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-lavender-50 to-ocean-50 p-4">
       <div className="flex items-center justify-between mb-2 w-full sm:px-5">
         <div>
-          <BackButton/>
+          <BackButton href={"https://xolace.app/feed"} title="Back to the Campfire"/>
         </div>
 
         <div>
