@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 
 import DashboardClient from "./components/dashboard";
 
+export const metadata: Metadata = {
+  title: 'Messaging Dashboard',
+  description: "Your dashboard for managing your anonymous message page"
+};
 
 export default function Dashboard() {
 
