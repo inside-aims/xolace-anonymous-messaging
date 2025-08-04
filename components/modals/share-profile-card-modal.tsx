@@ -1,7 +1,7 @@
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Badge} from "@/components/ui/badge";
 import {Button} from "@/components/ui/button";
-import {Share2, X} from "lucide-react";
+import {Download, Eye, Share2, X} from "lucide-react";
 import {useState} from "react";
 import {toast} from "sonner";
 import type { Settings } from "@/types/global"
@@ -24,6 +24,7 @@ type TemplateKey = keyof typeof templateVariants;
 
 const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => {
   const [isSharing, setIsSharing] = useState(false);
+  const [downloading, setDownloading] = useState<boolean>(false)
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateKey>(1);
   const userLinks = `${window.location.origin}/x/${settings?.shareable_slug}`
 
@@ -94,12 +95,40 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
     toast("Card downloaded!");
   };
 
-  //
+  const downloadCardAsImage = async () => {
+    setDownloading(true)
+    try {
+      const html2canvas = (await import("html2canvas-pro")).default;
+      const templateId = `shareCardTemplate${selectedTemplate}`;
+      const shareCardTemplate = document.getElementById(templateId);
+
+      if (shareCardTemplate) {
+        const canvas = await html2canvas(shareCardTemplate, {
+          backgroundColor: null,
+          scale: 2,
+          width: 400,
+          height: 500,
+          useCORS: true,
+        });
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            downloadImage(blob);
+          }
+        }, "image/png");
+      }
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Failed to generate card image. Please try again.");
+    } finally {
+      setDownloading(false)
+    }
+  };
   
 
   return(
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-full">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             Share Profile Card
@@ -166,15 +195,34 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
                 </>
               )}
             </Button>
+            <Button
+              className={"h-10 border border-lavender-500 flex justify-center"}
+              variant="outline"
+              onClick={downloadCardAsImage}
+              disabled={downloading}
+            >
+              {downloading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"/>
+                  <span className="hidden sm:inline">Downloading...</span>
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">Download</span>
+                </>
+              )}
+            </Button>
             <Button variant="outline" onClick={onClose} className={"h-10"}>
-              <X className="h-4 w-4 mr-2"/>
-              Close
+              <X className="h-4 w-4"/>
+              <span className="hidden sm:inline">Close</span>
             </Button>
           </div>
 
-          <p className="text-xs text-gray-500 text-center">
-            Share this beautiful message with others while keeping it anonymous
-          </p>
+          <div className="flex items-center justify-center text-xs text-gray-500">
+            <Eye className="h-4 w-4 mr-1 text-amber-500" />
+            <span>Psst... <span className="font-bold text-amber-400">Snapchat users:</span> download, copy link and then share for best results</span>
+          </div>
         </div>
       </DialogContent>
       {/* Hidden card templates for sharing */}
