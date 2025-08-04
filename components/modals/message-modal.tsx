@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Share2, X , Download} from "lucide-react";
+import { Share2, X , Download, Eye} from "lucide-react";
 import { toast } from "sonner";
 import {
   CardTemplate1,
@@ -199,7 +199,7 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
               )}
             </Button>
             <Button
-              className={"h-10 border border-lavender-500"}
+              className={"h-10 border border-lavender-500 flex justify-center"}
               variant="outline"
               onClick={downloadCardAsImage}
               disabled={downloading}
@@ -207,12 +207,12 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
               {downloading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"/>
-                  Downloading...
+                  <span className="hidden sm:inline">Downloading...</span>
                 </>
               ) : (
                 <>
-                  <Download className="h-4 w-4 mr-2" />
-                  Download
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">Download</span>
                 </>
               )}
             </Button>
@@ -222,9 +222,10 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
             </Button>
           </div>
 
-          <p className="text-xs text-gray-500 text-center">
-            Share this beautiful message with others while keeping it anonymous
-          </p>
+          <div className="flex items-center justify-center text-xs text-gray-500">
+            <Eye className="h-4 w-4 mr-1 text-amber-500" />
+            <span>Psst... Snapchat users: download and then share for best results</span>
+          </div>
         </div>
       </DialogContent>
       {/* Hidden card templates for sharing */}

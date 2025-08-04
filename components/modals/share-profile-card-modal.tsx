@@ -204,7 +204,7 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
               {downloading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"/>
-                  Downloading...
+                  <span className="hidden sm:inline">Downloading...</span>
                 </>
               ) : (
                 <>
