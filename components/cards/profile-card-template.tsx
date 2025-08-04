@@ -43,10 +43,10 @@ export const ProfileCard = ({ avatarUrl, message, date, templateId, variant, lin
       {/* Message Box */}
       <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg max-w-[320px] w-full z-10">
         <p className="text-base text-black font-medium mb-4">{message}</p>
-        <div className="border-t border-gray-200 pt-2">
+        {/* <div className="border-t border-gray-200 pt-2">
           <p className="text-gray-700 text-xs mb-1">{date}</p>
           <p className={badgeStyle[variant]}>PROFILE MESSAGE</p>
-        </div>
+        </div> */}
         {link && (
           <a
             href={link}

@@ -221,7 +221,7 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
 
           <div className="flex items-center justify-center text-xs text-gray-500">
             <Eye className="h-4 w-4 mr-1 text-amber-500" />
-            <span>Psst... Snapchat users: download and then share for best results</span>
+            <span>Psst... <span className="font-bold text-amber-400">Snapchat users:</span> download, copy link and then share for best results</span>
           </div>
         </div>
       </DialogContent>
