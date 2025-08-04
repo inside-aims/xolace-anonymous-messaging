@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Share2, X } from "lucide-react";
+import { Share2, X , Download} from "lucide-react";
 import { toast } from "sonner";
 import {
   CardTemplate1,
@@ -26,6 +26,7 @@ interface MessageModalProps {
 
 export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
   const [isSharing, setIsSharing] = useState(false);
+  const [downloading, setDownloading] = useState<boolean>(false)
   const [selectedTemplate, setSelectedTemplate] = useState(1);
 
   const shareMessage = async () => {
@@ -93,6 +94,36 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     URL.revokeObjectURL(imageUrl);
 
     toast("Card downloaded!");
+  };
+
+  const downloadCardAsImage = async () => {
+    setDownloading(true)
+    try {
+      const html2canvas = (await import("html2canvas-pro")).default;
+      const templateId = `shareCardTemplate${selectedTemplate}`;
+      const shareCardTemplate = document.getElementById(templateId);
+
+      if (shareCardTemplate) {
+        const canvas = await html2canvas(shareCardTemplate, {
+          backgroundColor: null,
+          scale: 2,
+          width: 400,
+          height: 500,
+          useCORS: true,
+        });
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            downloadImage(blob);
+          }
+        }, "image/png");
+      }
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Failed to generate card image. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
   };
 
   const formatDate = (timestamp: string) => {
@@ -164,6 +195,24 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
                 <>
                   <Share2 className="h-4 w-4 mr-2" />
                   Share as Card
+                </>
+              )}
+            </Button>
+            <Button
+              className={"h-10 border border-lavender-500"}
+              variant="outline"
+              onClick={downloadCardAsImage}
+              disabled={downloading}
+            >
+              {downloading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"/>
+                  Downloading...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4 mr-2" />
+                  Download
                 </>
               )}
             </Button>
