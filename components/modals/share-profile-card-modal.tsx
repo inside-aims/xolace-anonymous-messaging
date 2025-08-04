@@ -1,7 +1,7 @@
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Badge} from "@/components/ui/badge";
 import {Button} from "@/components/ui/button";
-import {Download, Share2, X} from "lucide-react";
+import {Download, Eye, Share2, X} from "lucide-react";
 import {useState} from "react";
 import {toast} from "sonner";
 import type { Settings } from "@/types/global"
@@ -128,7 +128,7 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
 
   return(
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-full">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
             Share Profile Card
@@ -196,7 +196,7 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
               )}
             </Button>
             <Button
-              className={"h-10 border border-lavender-500"}
+              className={"h-10 border border-lavender-500 flex justify-center"}
               variant="outline"
               onClick={downloadCardAsImage}
               disabled={downloading}
@@ -208,20 +208,21 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
                 </>
               ) : (
                 <>
-                  <Download className="h-4 w-4 mr-2" />
-                  Download
+                  <Download className="h-4 w-4" />
+                  <span className="hidden sm:inline">Download</span>
                 </>
               )}
             </Button>
             <Button variant="outline" onClick={onClose} className={"h-10"}>
-              <X className="h-4 w-4 mr-2"/>
-              Close
+              <X className="h-4 w-4"/>
+              <span className="hidden sm:inline">Close</span>
             </Button>
           </div>
 
-          <p className="text-xs text-gray-500 text-center">
-            Share this beautiful message with others while keeping it anonymous
-          </p>
+          <div className="flex items-center justify-center text-xs text-gray-500">
+            <Eye className="h-4 w-4 mr-1 text-amber-500" />
+            <span>Psst... Snapchat users: download and then share for best results</span>
+          </div>
         </div>
       </DialogContent>
       {/* Hidden card templates for sharing */}
