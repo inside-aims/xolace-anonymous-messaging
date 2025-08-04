@@ -1,7 +1,7 @@
 import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Badge} from "@/components/ui/badge";
 import {Button} from "@/components/ui/button";
-import {Share2, X} from "lucide-react";
+import {Download, Share2, X} from "lucide-react";
 import {useState} from "react";
 import {toast} from "sonner";
 import type { Settings } from "@/types/global"
@@ -24,6 +24,7 @@ type TemplateKey = keyof typeof templateVariants;
 
 const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => {
   const [isSharing, setIsSharing] = useState(false);
+  const [downloading, setDownloading] = useState<boolean>(false)
   const [selectedTemplate, setSelectedTemplate] = useState<TemplateKey>(1);
   const userLinks = `${window.location.origin}/x/${settings?.shareable_slug}`
 
@@ -94,7 +95,35 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
     toast("Card downloaded!");
   };
 
-  //
+  const downloadCardAsImage = async () => {
+    setDownloading(true)
+    try {
+      const html2canvas = (await import("html2canvas-pro")).default;
+      const templateId = `shareCardTemplate${selectedTemplate}`;
+      const shareCardTemplate = document.getElementById(templateId);
+
+      if (shareCardTemplate) {
+        const canvas = await html2canvas(shareCardTemplate, {
+          backgroundColor: null,
+          scale: 2,
+          width: 400,
+          height: 500,
+          useCORS: true,
+        });
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            downloadImage(blob);
+          }
+        }, "image/png");
+      }
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Failed to generate card image. Please try again.");
+    } finally {
+      setDownloading(false)
+    }
+  };
   
 
   return(
@@ -163,6 +192,24 @@ const ShareProfileCardModal = ({open, onClose, settings}: ShareProfileProps) => 
                 <>
                   <Share2 className="h-4 w-4 mr-2"/>
                   Share Profile Card
+                </>
+              )}
+            </Button>
+            <Button
+              className={"h-10 border border-lavender-500"}
+              variant="outline"
+              onClick={downloadCardAsImage}
+              disabled={downloading}
+            >
+              {downloading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"/>
+                  Downloading...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4 mr-2" />
+                  Download
                 </>
               )}
             </Button>
