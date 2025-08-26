@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Share2, X , Download, Eye} from "lucide-react";
+import { Share2, X , Download, Eye, MessageSquareShare} from "lucide-react";
 import { toast } from "sonner";
 import {
   CardTemplate1,
@@ -17,6 +17,8 @@ import {
   CardTemplate3,
 } from "../cards/card-templates";
 import { Message } from "@/types/global";
+import { useCreatePost } from "@/hooks/posts/useCreatePost";
+import { DefaultLoader } from "../loaders/default-loader";
 
 interface MessageModalProps {
   message: Message;
@@ -25,6 +27,7 @@ interface MessageModalProps {
 }
 
 export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
+  const { mutate: createPost, isPending: isCreatingPost } = useCreatePost();
   const [isSharing, setIsSharing] = useState(false);
   const [downloading, setDownloading] = useState<boolean>(false)
   const [selectedTemplate, setSelectedTemplate] = useState(1);
@@ -136,6 +139,10 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
     });
   };
 
+  const reshareMessage = () => {
+    createPost({ content: message.content });
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
@@ -216,9 +223,17 @@ export function MessageModal({ message, isOpen, onClose }: MessageModalProps) {
                 </>
               )}
             </Button>
-            <Button variant="outline" onClick={onClose} className={"h-10"}>
-              <X className="h-4 w-4 mr-2" />
-              Close
+            <Button variant="outline" onClick={reshareMessage} className={"h-10"} disabled={isCreatingPost || !message.can_reshare}>
+              {isCreatingPost ? (
+                <>
+                  <DefaultLoader size={20} className="mr-2" />
+                </>
+              ) : (
+                <>
+                  <MessageSquareShare className="h-4 w-4 mr-2" />
+                  Re-share
+                </>
+              )}
             </Button>
           </div>
 
