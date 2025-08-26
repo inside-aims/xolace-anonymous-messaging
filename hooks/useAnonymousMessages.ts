@@ -12,7 +12,6 @@ export function useMessageSettings(userId?: string) {
     queryKey: ['message-settings', userId],
     queryFn: async () => {
       const { data, error } = await supabase.rpc('get_or_create_message_settings').single();
-      console.log(error)
       if (error) throw new Error(error.message);
       return data;
     },
@@ -69,7 +68,6 @@ export function useUpdateMessageSettings(userId?: string) {
             // Remove user_id from the update payload as it cannot be changed.
             const { user_id, ...settingsToUpdate } = updatedSettings;
 
-            console.log("settingsToUpdate ", settingsToUpdate)
             const { data, error } = await supabase
                 .from('anonymous_messaging_settings')
                 .update({ ...settingsToUpdate, updated_at: new Date().toISOString() })
@@ -86,7 +84,6 @@ export function useUpdateMessageSettings(userId?: string) {
             toast.success("Your settings have been saved!");
         },
         onError: (error) => {
-            console.log(error)
             toast.error("Failed to save settings", { description: error.message });
         }
     });
