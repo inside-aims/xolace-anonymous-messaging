@@ -12,7 +12,6 @@ export function useMessagePageSettings(slug: string) {
   return useQuery({
     queryKey: ['message-page-settings', slug],
     queryFn: async () => {
-        console.log("Fetching settings for slug:", slug);
       const { data, error } = await supabase
         .from('anonymous_messaging_settings')
         .select('*')

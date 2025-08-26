@@ -25,7 +25,7 @@ export type Database = {
           related_username: string | null
           report_id: number | null
           user_avatar_url: string | null
-          user_id: string
+          user_id: string | null
           username: string | null
           video_id: string | null
           vote_id: number | null
@@ -45,7 +45,7 @@ export type Database = {
           related_username?: string | null
           report_id?: number | null
           user_avatar_url?: string | null
-          user_id: string
+          user_id?: string | null
           username?: string | null
           video_id?: string | null
           vote_id?: number | null
@@ -65,7 +65,7 @@ export type Database = {
           related_username?: string | null
           report_id?: number | null
           user_avatar_url?: string | null
-          user_id?: string
+          user_id?: string | null
           username?: string | null
           video_id?: string | null
           vote_id?: number | null
@@ -157,6 +157,8 @@ export type Database = {
       }
       anonymous_messages: {
         Row: {
+          posts: any
+          can_reshare: boolean
           content: string
           created_at: string
           id: string
@@ -166,6 +168,7 @@ export type Database = {
           shared_at: string | null
         }
         Insert: {
+          can_reshare?: boolean
           content: string
           created_at?: string
           id?: string
@@ -175,6 +178,7 @@ export type Database = {
           shared_at?: string | null
         }
         Update: {
+          can_reshare?: boolean
           content?: string
           created_at?: string
           id?: string
@@ -252,8 +256,139 @@ export type Database = {
           },
         ]
       }
+      campfire_members: {
+        Row: {
+          campfire_id: string
+          id: string
+          is_favorite: boolean
+          joined_at: string
+          role: Database["public"]["Enums"]["campfire_role"]
+          user_id: string
+        }
+        Insert: {
+          campfire_id: string
+          id?: string
+          is_favorite?: boolean
+          joined_at?: string
+          role?: Database["public"]["Enums"]["campfire_role"]
+          user_id: string
+        }
+        Update: {
+          campfire_id?: string
+          id?: string
+          is_favorite?: boolean
+          joined_at?: string
+          role?: Database["public"]["Enums"]["campfire_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campfire_members_campfire_id_fkey"
+            columns: ["campfire_id"]
+            isOneToOne: false
+            referencedRelation: "campfires"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "campfire_members_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campfire_rules: {
+        Row: {
+          campfire_id: string
+          created_at: string
+          description: string | null
+          display_order: number
+          id: number
+          title: string
+        }
+        Insert: {
+          campfire_id: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: number
+          title: string
+        }
+        Update: {
+          campfire_id?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campfire_rules_campfire_id_fkey"
+            columns: ["campfire_id"]
+            isOneToOne: false
+            referencedRelation: "campfires"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campfires: {
+        Row: {
+          banner_url: string | null
+          created_at: string
+          created_by: string
+          description: string | null
+          icon_url: string | null
+          id: string
+          member_count: number
+          name: string
+          purpose: Database["public"]["Enums"]["campfire_purpose"]
+          slug: string
+          updated_at: string
+          visibility: Database["public"]["Enums"]["campfire_visibility"]
+        }
+        Insert: {
+          banner_url?: string | null
+          created_at?: string
+          created_by: string
+          description?: string | null
+          icon_url?: string | null
+          id?: string
+          member_count?: number
+          name: string
+          purpose?: Database["public"]["Enums"]["campfire_purpose"]
+          slug: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["campfire_visibility"]
+        }
+        Update: {
+          banner_url?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string | null
+          icon_url?: string | null
+          id?: string
+          member_count?: number
+          name?: string
+          purpose?: Database["public"]["Enums"]["campfire_purpose"]
+          slug?: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["campfire_visibility"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campfires_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       collections: {
         Row: {
+          posts: any
           collection_name: string | null
           created_at: string | null
           id: string
@@ -295,37 +430,50 @@ export type Database = {
         Row: {
           author_avatar_url: string | null
           author_name: string | null
+          campfire_id: string | null
           comment_text: string
           created_at: string
           created_by: string | null
           depth: number
           id: number
           parent_id: number | null
+          pinned_status: Database["public"]["Enums"]["comment_pin_type"]
           post: string
         }
         Insert: {
           author_avatar_url?: string | null
           author_name?: string | null
+          campfire_id?: string | null
           comment_text: string
           created_at?: string
           created_by?: string | null
           depth?: number
           id?: number
           parent_id?: number | null
+          pinned_status?: Database["public"]["Enums"]["comment_pin_type"]
           post: string
         }
         Update: {
           author_avatar_url?: string | null
           author_name?: string | null
+          campfire_id?: string | null
           comment_text?: string
           created_at?: string
           created_by?: string | null
           depth?: number
           id?: number
           parent_id?: number | null
+          pinned_status?: Database["public"]["Enums"]["comment_pin_type"]
           post?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "comments_campfire_id_fkey"
+            columns: ["campfire_id"]
+            isOneToOne: false
+            referencedRelation: "campfires"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "comments_created_by_fkey"
             columns: ["created_by"]
@@ -352,6 +500,7 @@ export type Database = {
       daily_prompts: {
         Row: {
           active_on: string
+          category: string
           created_at: string
           created_by: string
           id: string
@@ -360,6 +509,7 @@ export type Database = {
         }
         Insert: {
           active_on: string
+          category?: string
           created_at?: string
           created_by: string
           id?: string
@@ -368,6 +518,7 @@ export type Database = {
         }
         Update: {
           active_on?: string
+          category?: string
           created_at?: string
           created_by?: string
           id?: string
@@ -388,7 +539,7 @@ export type Database = {
         Row: {
           area: string | null
           created_at: string
-          created_by: string
+          created_by: string | null
           description: string | null
           id: number
           status: Database["public"]["Enums"]["feedback_status"]
@@ -396,7 +547,7 @@ export type Database = {
         Insert: {
           area?: string | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           description?: string | null
           id?: number
           status?: Database["public"]["Enums"]["feedback_status"]
@@ -404,7 +555,7 @@ export type Database = {
         Update: {
           area?: string | null
           created_at?: string
-          created_by?: string
+          created_by?: string | null
           description?: string | null
           id?: number
           status?: Database["public"]["Enums"]["feedback_status"]
@@ -421,37 +572,61 @@ export type Database = {
       }
       health_professionals: {
         Row: {
+          agree_terms: boolean
           bio: string | null
+          confirm_accuracy: boolean
+          consent_processing: boolean
           consultation_link: string | null
+          contact: string | null
           created_at: string | null
           field: string
           id: string
+          language: string | null
           license_number: string | null
+          location: string | null
+          title: string
+          understand_review: boolean
           updated_at: string | null
           verified_by_admin: boolean | null
           years_of_experience: number | null
         }
         Insert: {
+          agree_terms?: boolean
           bio?: string | null
+          confirm_accuracy?: boolean
+          consent_processing?: boolean
           consultation_link?: string | null
+          contact?: string | null
           created_at?: string | null
           field: string
           id: string
+          language?: string | null
           license_number?: string | null
+          location?: string | null
+          title: string
+          understand_review?: boolean
           updated_at?: string | null
-          verified_by_admin?: boolean | null
-          years_of_experience?: number | null
+          verified_by_admin?: boolean
+          years_of_experience: number
         }
         Update: {
+          agree_terms?: boolean
           bio?: string | null
+          confirm_accuracy?: boolean
+          consent_processing?: boolean
           consultation_link?: string | null
+          contact?: string | null
           created_at?: string | null
           field?: string
           id?: string
+          language?: string | null
           license_number?: string | null
+          location?: string | null
+          title?: string
+          understand_review?: boolean
           updated_at?: string | null
-          verified_by_admin?: boolean | null
-          years_of_experience?: number | null
+          verified_by_admin?: boolean
+          years_of_experience?: number
         }
         Relationships: [
           {
@@ -713,15 +888,19 @@ export type Database = {
         Row: {
           author_avatar_url: string | null
           author_name: string
+          author_roles: Database["public"]["Enums"]["user_role"][]
+          campfire_id: string | null
           content: string
           created_at: string
           created_by: string | null
+          daily_prompt_id: string | null
           downvotes: number
           duration: Database["public"]["Enums"]["post_duration"] | null
           expires_at: string | null
           expires_in_24hr: boolean
           id: string
           is_prompt_response: boolean
+          is_reshared_anon_meg: boolean
           is_sensitive: boolean
           mood: Database["public"]["Enums"]["post_mood"]
           type: Database["public"]["Enums"]["post_type"]
@@ -730,15 +909,19 @@ export type Database = {
         Insert: {
           author_avatar_url?: string | null
           author_name: string
+          author_roles?: Database["public"]["Enums"]["user_role"][]
+          campfire_id?: string | null
           content: string
           created_at?: string
           created_by?: string | null
+          daily_prompt_id?: string | null
           downvotes?: number
           duration?: Database["public"]["Enums"]["post_duration"] | null
           expires_at?: string | null
           expires_in_24hr?: boolean
           id?: string
           is_prompt_response?: boolean
+          is_reshared_anon_meg?: boolean
           is_sensitive?: boolean
           mood?: Database["public"]["Enums"]["post_mood"]
           type?: Database["public"]["Enums"]["post_type"]
@@ -747,15 +930,19 @@ export type Database = {
         Update: {
           author_avatar_url?: string | null
           author_name?: string
+          author_roles?: Database["public"]["Enums"]["user_role"][]
+          campfire_id?: string | null
           content?: string
           created_at?: string
           created_by?: string | null
+          daily_prompt_id?: string | null
           downvotes?: number
           duration?: Database["public"]["Enums"]["post_duration"] | null
           expires_at?: string | null
           expires_in_24hr?: boolean
           id?: string
           is_prompt_response?: boolean
+          is_reshared_anon_meg?: boolean
           is_sensitive?: boolean
           mood?: Database["public"]["Enums"]["post_mood"]
           type?: Database["public"]["Enums"]["post_type"]
@@ -763,10 +950,24 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "posts_campfire_id_fkey"
+            columns: ["campfire_id"]
+            isOneToOne: false
+            referencedRelation: "campfires"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "posts_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_daily_prompt_id_fkey"
+            columns: ["daily_prompt_id"]
+            isOneToOne: false
+            referencedRelation: "daily_prompts"
             referencedColumns: ["id"]
           },
         ]
@@ -803,6 +1004,41 @@ export type Database = {
             columns: ["tag"]
             isOneToOne: false
             referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      professionals_invite_codes: {
+        Row: {
+          code: string
+          created_at: string
+          expired: boolean
+          expired_at: string | null
+          id: number
+          professional: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expired?: boolean
+          expired_at?: string | null
+          id?: number
+          professional?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expired?: boolean
+          expired_at?: string | null
+          id?: number
+          professional?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "professionals_invite_codes_professional_fkey"
+            columns: ["professional"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1150,6 +1386,7 @@ export type Database = {
       }
       video_collections: {
         Row: {
+          videos: any
           collection_name: string | null
           created_at: string | null
           id: string
@@ -1388,13 +1625,16 @@ export type Database = {
           content: string
           mood: Database["public"]["Enums"]["post_mood"]
           expires_in_24hr: boolean
-          duration?: Database["public"]["Enums"]["post_duration"]
-          expires_at?: string
+          duration?: Database["public"]["Enums"]["post_duration"] | null
+          expires_at?: string | null
           is_sensitive?: boolean
           is_prompt_response?: boolean
           type?: Database["public"]["Enums"]["post_type"]
           tag_names?: string[]
           slide_contents?: string[]
+          campfire_id?: string
+          daily_prompt_id?: string
+          is_reshared_anon_meg?: boolean
         }
         Returns: string
       }
@@ -1448,17 +1688,80 @@ export type Database = {
         }
         Returns: string
       }
+      create_post_with_tags_v5: {
+        Args: {
+          content: string
+          mood: Database["public"]["Enums"]["post_mood"]
+          expires_in_24hr: boolean
+          duration?: Database["public"]["Enums"]["post_duration"]
+          expires_at?: string
+          is_sensitive?: boolean
+          is_prompt_response?: boolean
+          type?: Database["public"]["Enums"]["post_type"]
+          tag_names?: string[]
+          slide_contents?: string[]
+        }
+        Returns: string
+      }
+      create_post_with_tags_v6: {
+        Args: {
+          content: string
+          mood: Database["public"]["Enums"]["post_mood"]
+          expires_in_24hr: boolean
+          duration?: Database["public"]["Enums"]["post_duration"]
+          expires_at?: string
+          is_sensitive?: boolean
+          is_prompt_response?: boolean
+          type?: Database["public"]["Enums"]["post_type"]
+          tag_names?: string[]
+          slide_contents?: string[]
+          campfire_id?: string
+        }
+        Returns: string
+      }
+      create_post_with_tags_v7: {
+        Args: {
+          content: string
+          mood: Database["public"]["Enums"]["post_mood"]
+          expires_in_24hr: boolean
+          duration?: Database["public"]["Enums"]["post_duration"]
+          expires_at?: string
+          is_sensitive?: boolean
+          is_prompt_response?: boolean
+          type?: Database["public"]["Enums"]["post_type"]
+          tag_names?: string[]
+          slide_contents?: string[]
+          campfire_id?: string
+          daily_prompt_id?: string
+        }
+        Returns: string
+      }
+      get_campfire_members_by_roles: {
+        Args: {
+          p_campfire_id: string
+          p_roles: Database["public"]["Enums"]["campfire_role"][]
+          p_limit?: number
+        }
+        Returns: {
+          user_id: string
+          username: string
+          avatar_url: string
+          role: Database["public"]["Enums"]["campfire_role"]
+        }[]
+      }
       get_comments_with_replies: {
         Args: { post_id_param: string }
         Returns: {
           author_avatar_url: string | null
           author_name: string | null
+          campfire_id: string | null
           comment_text: string
           created_at: string
           created_by: string | null
           depth: number
           id: number
           parent_id: number | null
+          pinned_status: Database["public"]["Enums"]["comment_pin_type"]
           post: string
         }[]
       }
@@ -1479,6 +1782,83 @@ export type Database = {
           user_id: string
           username: string
           welcome_message: string | null
+        }[]
+      }
+      get_personalized_feed: {
+        Args: {
+          user_id_param: string
+          page_size?: number
+          offset_param?: number
+        }
+        Returns: {
+          id: string
+          created_at: string
+          created_by: string
+          author_name: string
+          content: string
+          mood: Database["public"]["Enums"]["post_mood"]
+          author_avatar_url: string
+          expires_in_24hr: boolean
+          duration: Database["public"]["Enums"]["post_duration"]
+          expires_at: string
+          downvotes: number
+          upvotes: number
+          is_sensitive: boolean
+          is_prompt_response: boolean
+          type: Database["public"]["Enums"]["post_type"]
+          author_roles: Database["public"]["Enums"]["user_role"][]
+          campfire_id: string
+          campfire_name: string
+          campfire_slug: string
+          campfire_icon_url: string
+          daily_prompt_id: string
+          prompt_text: string
+          prompt_category: string
+          priority_score: number
+          is_new_post: boolean
+          is_campfire_post: boolean
+          posttags: Json
+          comments_count: number
+          views_count: number
+          collections: Json
+          post_slides: Json
+        }[]
+      }
+      get_personalized_feed_v1: {
+        Args: {
+          user_id_param: string
+          page_size?: number
+          offset_param?: number
+        }
+        Returns: {
+          id: string
+          created_at: string
+          created_by: string
+          author_name: string
+          content: string
+          mood: Database["public"]["Enums"]["post_mood"]
+          author_avatar_url: string
+          expires_in_24hr: boolean
+          duration: Database["public"]["Enums"]["post_duration"]
+          expires_at: string
+          downvotes: number
+          upvotes: number
+          is_sensitive: boolean
+          is_prompt_response: boolean
+          type: Database["public"]["Enums"]["post_type"]
+          author_roles: Database["public"]["Enums"]["user_role"][]
+          campfire_id: string
+          campfire_name: string
+          campfire_slug: string
+          campfire_icon_url: string
+          priority_score: number
+          is_new_post: boolean
+          is_campfire_post: boolean
+          posttags: Json
+          comments_count: number
+          views_count: number
+          collections: Json
+          post_slides: Json
         }[]
       }
       get_user_stats: {
@@ -1526,6 +1906,13 @@ export type Database = {
         Args: { notification_id: string }
         Returns: undefined
       }
+      pin_comment: {
+        Args: {
+          comment_id_to_pin: number
+          pin_level: Database["public"]["Enums"]["comment_pin_type"]
+        }
+        Returns: undefined
+      }
       reset_credits: {
         Args: Record<PropertyKey, never>
         Returns: undefined
@@ -1547,6 +1934,14 @@ export type Database = {
         | "viewed"
         | "added"
         | "liked"
+      campfire_purpose:
+        | "support_circle"
+        | "growth_group"
+        | "creative_outlet"
+        | "general_discussion"
+      campfire_role: "camper" | "firekeeper" | "firestarter"
+      campfire_visibility: "public" | "restricted" | "private" | "secret"
+      comment_pin_type: "none" | "author" | "professional"
       entity_types:
         | "post"
         | "comment"
@@ -1556,6 +1951,7 @@ export type Database = {
         | "system"
         | "view"
         | "video"
+        | "campfire"
       feedback_status: "open" | "closed"
       notification_target_type:
         | "single_user"
@@ -1572,6 +1968,8 @@ export type Database = {
         | "system_announcement"
         | "post_viewed"
         | "comment_reply"
+        | "joined_campfire"
+        | "leave_campfire"
       post_duration: "6" | "12" | "24"
       post_mood:
         | "neutral"
@@ -1595,7 +1993,12 @@ export type Database = {
       privacy_options: "public" | "private" | "followers_only"
       report_status: "pending" | "reviewed" | "resolved"
       theme_options: "system" | "light" | "dark"
-      user_role: "normal_user" | "verified" | "blue_team" | "help_professional"
+      user_role:
+        | "normal_user"
+        | "verified"
+        | "blue_team"
+        | "help_professional"
+        | "mentor"
       verification_method: "manual" | "subscription" | "promo"
       visibility_options: "public" | "private"
       vote_types: "upvote" | "downvote"
@@ -1738,6 +2141,15 @@ export const Constants = {
         "added",
         "liked",
       ],
+      campfire_purpose: [
+        "support_circle",
+        "growth_group",
+        "creative_outlet",
+        "general_discussion",
+      ],
+      campfire_role: ["camper", "firekeeper", "firestarter"],
+      campfire_visibility: ["public", "restricted", "private", "secret"],
+      comment_pin_type: ["none", "author", "professional"],
       entity_types: [
         "post",
         "comment",
@@ -1747,6 +2159,7 @@ export const Constants = {
         "system",
         "view",
         "video",
+        "campfire",
       ],
       feedback_status: ["open", "closed"],
       notification_target_type: [
@@ -1765,6 +2178,8 @@ export const Constants = {
         "system_announcement",
         "post_viewed",
         "comment_reply",
+        "joined_campfire",
+        "leave_campfire",
       ],
       post_duration: ["6", "12", "24"],
       post_mood: [
@@ -1790,7 +2205,13 @@ export const Constants = {
       privacy_options: ["public", "private", "followers_only"],
       report_status: ["pending", "reviewed", "resolved"],
       theme_options: ["system", "light", "dark"],
-      user_role: ["normal_user", "verified", "blue_team", "help_professional"],
+      user_role: [
+        "normal_user",
+        "verified",
+        "blue_team",
+        "help_professional",
+        "mentor",
+      ],
       verification_method: ["manual", "subscription", "promo"],
       visibility_options: ["public", "private"],
       vote_types: ["upvote", "downvote"],

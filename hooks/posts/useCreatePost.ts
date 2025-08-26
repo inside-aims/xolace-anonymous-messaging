@@ -14,7 +14,6 @@ export function useCreatePost() {
             const tags = ['anonymousMessaging']
             const type = 'single'
             const slidesWithoutTags = [] as string[]
-            const promptId = null
 
             const { data: post_id, error: postError } = await supabase.rpc(
                 'create_post_with_tags',
@@ -30,7 +29,7 @@ export function useCreatePost() {
                   type,
                   slide_contents: slidesWithoutTags,
                   campfire_id: undefined,
-                  daily_prompt_id: is_prompt_response ? promptId : undefined,
+                  daily_prompt_id: undefined,
                   is_reshared_anon_meg: true,
                 },
               );
