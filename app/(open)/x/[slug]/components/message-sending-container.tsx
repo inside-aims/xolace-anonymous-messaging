@@ -11,7 +11,7 @@ import {useRouter} from "next/navigation";
 
 interface MessageSendingContainerProps {
   settings: Settings
-  onSubmit: (messageText: string) => void
+  onSubmit: (messageText: string, canReshare: boolean) => void
   isSubmitting: boolean
   isPreview: boolean
 }

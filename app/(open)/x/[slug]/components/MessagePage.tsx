@@ -16,7 +16,7 @@ export default function MessagePage({ slug , isPreview }: { slug: string, isPrev
   // 2. Get the mutation function for sending a message
   const { mutate: sendMessage, isPending: isSubmitting } = useSendMessage();
 
-  const handleSubmit = (messageText: string) => {
+  const handleSubmit = (messageText: string, canReshare: boolean) => {
     if (!settings) return; // Should not happen if data is loaded
 
     if (settings.min_length && messageText.length < settings.min_length) {
@@ -26,7 +26,7 @@ export default function MessagePage({ slug , isPreview }: { slug: string, isPrev
     
     // 3. Call the mutation with the message content and recipient's ID
     sendMessage(
-      { content: messageText, recipientId: settings.user_id },
+      { content: messageText, recipientId: settings.user_id, canReshare },
       {
         onSuccess: () => {
           setIsSubmitted(true);

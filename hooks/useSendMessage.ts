@@ -39,12 +39,13 @@ export function useMessagePageSettings(slug: string) {
 export function useSendMessage() {
     const supabase = getSupabaseBrowserClient();
     return useMutation({
-        mutationFn: async ({ content, recipientId }: { content: string, recipientId: string }) => {
+        mutationFn: async ({ content, recipientId, canReshare }: { content: string, recipientId: string, canReshare: boolean }) => {
             const { error } = await supabase
                 .from('anonymous_messages')
                 .insert({
                     content: content,
                     recipient_id: recipientId,
+                    can_reshare: canReshare
                 });
             
             if (error) throw new Error(error.message);
