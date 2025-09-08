@@ -9,9 +9,25 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { useUserState } from "@/lib/store/user";
 import type { Settings } from "@/types/global";
+import {getFeatureModalConfig} from "@/components/constants/feature-config";
+import {useFeatureModal} from "@/hooks/useFeatureModal";
+import {FeatureOverviewModal} from "@/components/modals/feature-overview-modal";
 
 export default function CustomizePage() {
   const { user } = useUserState();
+
+  // feature modal
+  const modalConfig = getFeatureModalConfig('/customize');
+  const {
+    isOpen: isFeatureModalOpen,
+    hideModal: hideFeatureModal,
+    dismissModal: dismissFeatureModal,
+  } = useFeatureModal({
+    config: modalConfig!,
+    delay: 300,
+    autoShow: true
+  });
+
 
   // 1. Fetch the source-of-truth settings from the database
   const {
@@ -75,27 +91,38 @@ export default function CustomizePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-lavender-50 via-ocean-50 to-moss-50 p-4">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <CustomizationHeader
-          onSave={handleSave}
-          isSaving={isSaving}
-          userLink={userLink}
-        />
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-lavender-50 via-ocean-50 to-moss-50 p-4">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <CustomizationHeader
+            onSave={handleSave}
+            isSaving={isSaving}
+            userLink={userLink}
+          />
 
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-          <div className="xl:col-span-2">
-            <CustomizationTabs
-              settings={draftSettings}
-              onUpdate={handleUpdate}
-            />
-          </div>
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+            <div className="xl:col-span-2">
+              <CustomizationTabs
+                settings={draftSettings}
+                onUpdate={handleUpdate}
+              />
+            </div>
 
-          <div className="xl:col-span-1">
-            <LivePreview settings={draftSettings} />
+            <div className="xl:col-span-1">
+              <LivePreview settings={draftSettings}/>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {modalConfig && (
+        <FeatureOverviewModal
+          isOpen={isFeatureModalOpen}
+          onClose={hideFeatureModal}
+          config={modalConfig}
+          onDismissForever={dismissFeatureModal}
+        />
+      )}
+    </>
   );
 }
