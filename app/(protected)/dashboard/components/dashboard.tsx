@@ -21,6 +21,9 @@ import { Message } from '@/types/global';
 import DashboardSkeletonLoader  from '@/components/loaders/dashboard-loader';
 import { MessagesSkeleton } from '@/components/loaders/message-skeleton';
 import ShareProfileCardModal from "@/components/modals/share-profile-card-modal";
+import {FeatureOverviewModal} from "@/components/modals/feature-overview-modal";
+import {useFeatureModal} from "@/hooks/useFeatureModal";
+import {getFeatureModalConfig} from "@/components/constants/feature-config";
 
 const DashboardClient = () =>{
     const { user } = useUserState();
@@ -59,6 +62,18 @@ const DashboardClient = () =>{
           markAsRead(message.id);
         }
     };
+
+  // feature modal
+  const modalConfig = getFeatureModalConfig('/dashboard');
+  const {
+    isOpen: isFeatureModalOpen,
+    hideModal: hideFeatureModal,
+    dismissModal: dismissFeatureModal,
+  } = useFeatureModal({
+    config: modalConfig!,
+    delay: 300,
+    autoShow: true
+  });
   
     const unreadCount = useMemo(() => {
         return messages?.filter((m) => !m.is_read).length ?? 0;
@@ -221,6 +236,15 @@ const DashboardClient = () =>{
           onClose={() => setIsShareProfileCard(false)}
           settings={settings}
           />
+      )}
+
+      {modalConfig && (
+        <FeatureOverviewModal
+          isOpen={isFeatureModalOpen}
+          onClose={hideFeatureModal}
+          config={modalConfig}
+          onDismissForever={dismissFeatureModal}
+        />
       )}
     </>
   )
