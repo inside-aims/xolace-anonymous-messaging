@@ -6,6 +6,9 @@ import { toast } from "sonner"
 import { MessageSendingContainer } from "./message-sending-container"
 import { SuccessScreen } from "./success-screen"
 import { useMessagePageSettings, useSendMessage } from "@/hooks/useSendMessage";
+import {FeatureOverviewModal} from "@/components/modals/feature-overview-modal";
+import {getFeatureModalConfig} from "@/components/constants/feature-config";
+import {useFeatureModal} from "@/hooks/useFeatureModal";
 
 export default function MessagePage({ slug , isPreview }: { slug: string, isPreview: boolean }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -40,6 +43,18 @@ export default function MessagePage({ slug , isPreview }: { slug: string, isPrev
     setIsSubmitted(false);
   };
 
+  // feature modal
+  const modalConfig = getFeatureModalConfig('/x/[id]');
+  const {
+    isOpen: isFeatureModalOpen,
+    hideModal: hideFeatureModal,
+    dismissModal: dismissFeatureModal,
+  } = useFeatureModal({
+    config: modalConfig!,
+    delay: 300,
+    autoShow: true
+  });
+
   // 4. Handle loading and error states for a production-grade experience
   if (isLoading) {
     return (
@@ -64,11 +79,21 @@ export default function MessagePage({ slug , isPreview }: { slug: string, isPrev
   }
 
   return (
-    <MessageSendingContainer
-      settings={settings}
-      onSubmit={handleSubmit}
-      isSubmitting={isSubmitting}
-      isPreview={isPreview}
-    />
+   <>
+     <MessageSendingContainer
+       settings={settings}
+       onSubmit={handleSubmit}
+       isSubmitting={isSubmitting}
+       isPreview={isPreview}
+     />
+     {modalConfig && (
+       <FeatureOverviewModal
+         isOpen={isFeatureModalOpen}
+         onClose={hideFeatureModal}
+         config={modalConfig}
+         onDismissForever={dismissFeatureModal}
+       />
+     )}
+   </>
   );
 }
