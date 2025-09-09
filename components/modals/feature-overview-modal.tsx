@@ -111,6 +111,7 @@ export const FeatureOverviewModal: React.FC<FeatureOverviewModalProps> = ({isOpe
                 <div className="flex justify-center gap-2 py-2">
                   {config.features.map((_, index) => (
                     <button
+                      type='button'
                       key={index}
                       onClick={() => setCurrentStep(index)}
                       className={`w-2 h-2 rounded-full transition-all duration-200 ${

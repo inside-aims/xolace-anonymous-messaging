@@ -3,6 +3,7 @@ import {
   FileText,
   Palette,
   Settings,
+  UserPen,
   Eye,
   Save, Download, Mail, Share2, Copy, PlusCircle, MessageCircle, Send, Type,
 } from "lucide-react";
@@ -38,7 +39,7 @@ export const featureModalConfigs: Record<string, FeatureModalConfig> = {
         icon: Settings,
         title: "Advanced",
         description:
-          "Fine-tune the details—like minimum response length—to keep your page in control.",
+          "Fine-tune the details like, minimum response length to keep your page in control.",
       },
       {
         icon: Eye,
@@ -81,7 +82,7 @@ export const featureModalConfigs: Record<string, FeatureModalConfig> = {
           "Post your link directly to social platforms in seconds. More visibility, more responses.",
       },
       {
-        icon: Settings,
+        icon: UserPen,
         title: "Customize",
         description:
           "Jump to the customize page to tweak your card’s content, appearance, and advanced settings.",
